@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoitePuzzle : Puzzle
+public class BouttonPuzzle : Puzzle
 {
 
 
@@ -10,22 +10,12 @@ public class BoitePuzzle : Puzzle
     void Start()
     {
         box.material = mat_off;
-        IsValide = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    } 
-    private void OnMouseDown()
-    {
-        if (LevierActivable == true)
-        {
-            //Debug.Log("Test");
-            Validate();
-        }
-
+     
     }
 
     public void Activate()
@@ -33,4 +23,5 @@ public class BoitePuzzle : Puzzle
         box.material = mat_on;
         LevierActivable = true;
     }
+
 }

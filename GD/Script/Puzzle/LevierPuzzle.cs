@@ -1,24 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class LevierPuzzle : Puzzle
 {
+    
 
-    // Start is called before the first frame update
     void Start()
     {
+        LevierActivable = true;
         IsValide = true;
+        box.material = mat_on;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
-        
+
     }
 
     private void OnMouseDown()
     {
-        Validate();
+        if (LevierActivable == true)
+        {
+            Validate();
+        }
     }
+    public void Activate()
+    {
+        box.material = mat_on;
+        LevierActivable = true;
+    }
+
 }
