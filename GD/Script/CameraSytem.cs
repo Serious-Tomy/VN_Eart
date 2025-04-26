@@ -34,7 +34,6 @@ public class CameraSytem : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
-            Debug.Log("mouvement");
             Camera();
         }
         
