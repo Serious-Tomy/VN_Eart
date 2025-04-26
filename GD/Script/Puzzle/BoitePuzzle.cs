@@ -20,9 +20,8 @@ public class BoitePuzzle : Puzzle
     } 
     private void OnMouseDown()
     {
-        if (LevierActivable == true)
+        if (Activer == true)
         {
-            //Debug.Log("Test");
             Validate();
         }
 
@@ -31,6 +30,6 @@ public class BoitePuzzle : Puzzle
     public void Activate()
     {
         box.material = mat_on;
-        LevierActivable = true;
+        Activer = true;
     }
 }

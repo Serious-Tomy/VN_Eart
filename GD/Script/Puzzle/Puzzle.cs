@@ -6,7 +6,7 @@ using UnityEngine.Events;
 public class Puzzle : MonoBehaviour
 {
     protected bool IsValide;
-    [SerializeField] protected bool LevierActivable = false;
+    [SerializeField] protected bool Activer = false;
     [SerializeField] protected UnityEvent OnValidated;
     [SerializeField] protected Material mat_on;
     [SerializeField] protected Material mat_off;
@@ -21,7 +21,7 @@ public class Puzzle : MonoBehaviour
 
         OnValidated?.Invoke();
         IsValide = false;
-        LevierActivable = true;
+        Activer = true;
         Debug.Log("validé");
     }
 
