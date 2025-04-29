@@ -1,39 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
-public class BouttonPuzzle : Puzzle
+public class ActiverPuzzle : Puzzle
 {
 
+    [SerializeField] bool Activer;
+    [SerializeField] protected Material mat_on;
+    [SerializeField] protected Material mat_off;
+    [SerializeField] protected MeshRenderer box;
 
-    // Start is called before the first frame update
     void Start()
     {
-        box.material = mat_off;
-        IsValide = true;
+        IsValide = Activer;
+        box.material = Activer ? mat_on : mat_off;
+
     }
+
 
     void Update()
     {
 
     }
+
     private void OnMouseDown()
     {
         if (Activer == true)
         {
             Validate();
         }
-
     }
-
     public void Activate()
     {
         box.material = mat_on;
         Activer = true;
+        IsValide = true;
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
 }
