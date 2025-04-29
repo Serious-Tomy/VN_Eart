@@ -725,6 +725,7 @@ GameObject:
   - component: {fileID: 602861838}
   - component: {fileID: 602861837}
   - component: {fileID: 602861836}
+  - component: {fileID: 602861839}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -815,7 +816,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9ebc6586b887d26498d18f57e4fd09ef, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 72649a22f93dab244bbd33dbd8025429, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -833,6 +834,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 602861834}
   m_CullTransparentMesh: 1
+--- !u!114 &602861839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 602861834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 591efb466fa122e46ab89345b4e8fa6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  etat: 0
+  boutonImage: {fileID: 0}
+  spriteOn: {fileID: 21300000, guid: 9ebc6586b887d26498d18f57e4fd09ef, type: 3}
+  spriteOff: {fileID: 21300000, guid: 72649a22f93dab244bbd33dbd8025429, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,7 +1108,6 @@ MonoBehaviour:
   box: {fileID: 0}
   spriteOn: {fileID: 21300000, guid: 9ebc6586b887d26498d18f57e4fd09ef, type: 3}
   spriteOff: {fileID: 21300000, guid: 72649a22f93dab244bbd33dbd8025429, type: 3}
-  etat: 0
   bouton: {fileID: 602861834}
 --- !u!65 &1154094313
 BoxCollider:
