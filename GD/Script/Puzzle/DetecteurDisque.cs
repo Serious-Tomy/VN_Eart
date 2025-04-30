@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DetecteurDisque : MonoBehaviour
 {
-
+    bool IsInCase;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,12 +18,20 @@ public class DetecteurDisque : MonoBehaviour
         
     }
 
-
-    void OnTriggerEnter(Collider collision)
+    private void OnTriggerEnter(Collider col)
     {
-        if (collision.gameObject.CompareTag("Collision"))
+        IsInCase = true;
+        if (col.CompareTag("Collision") && !Input.GetMouseButton(0))
         {
-            Debug.Log("détecté");
+            Debug.Log("tttttttt");
+        }
+    }
+
+    private void OnTriggerExit(Collider col)
+    {
+        if (col.CompareTag("Collision"))
+        {
+            IsInCase = false;
         }
     }
 }
