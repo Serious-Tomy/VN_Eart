@@ -5,7 +5,7 @@ using UnityEngine;
 public class DisquePuzzle : Puzzle
 {
 
-    private float angleBefore;    
+    private float angleBefore;
 
 
     void Start()
@@ -39,4 +39,6 @@ public class DisquePuzzle : Puzzle
         angleBefore = angleCurrent;
     }
 
+
+    
 }

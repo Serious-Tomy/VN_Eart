@@ -5,19 +5,15 @@ using UnityEngine;
 
 public class Souris : MonoBehaviour
 {
+
+    [SerializeField] private Texture2D arrow;
     // Start is called before the first frame update
 
-    private Texture2D arrow;
-    
+
     void Start()
     {
-        //Cursor.visible = false;
         Cursor.SetCursor(arrow, Vector2.zero, CursorMode.ForceSoftware);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
         
     }
+
 }

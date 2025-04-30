@@ -11,6 +11,8 @@ public class ActiverPuzzle : Puzzle
     [SerializeField] protected Material mat_off;
     [SerializeField] protected MeshRenderer box;
 
+
+
     void Start()
     {
         IsValide = Activer;
