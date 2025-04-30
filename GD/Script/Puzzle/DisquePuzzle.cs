@@ -38,7 +38,4 @@ public class DisquePuzzle : Puzzle
         transform.Rotate(Vector3.up, -angleDelta);
         angleBefore = angleCurrent;
     }
-
-
-    
 }
