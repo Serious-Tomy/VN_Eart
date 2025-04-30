@@ -5,33 +5,32 @@ using UnityEngine;
 
 public class DetecteurDisque : MonoBehaviour
 {
-    bool IsInCase;
+    bool Detecteur;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    private void OnTriggerEnter(Collider col)
+    private void OnTriggerStay(Collider col)
     {
-        IsInCase = true;
+
         if (col.CompareTag("Collision") && !Input.GetMouseButton(0))
         {
-            Debug.Log("tttttttt");
+            Detecteur = true;
+            Debug.Log("dedans");
         }
     }
 
     private void OnTriggerExit(Collider col)
     {
-        if (col.CompareTag("Collision"))
-        {
-            IsInCase = false;
-        }
+        Detecteur = false;
+        Debug.Log("dehors");
     }
 }
