@@ -6,13 +6,10 @@ using UnityEngine.UI;
 
 public class SerrurePuzzle : Puzzle
 {
+    [SerializeField] Objet key;
+    [SerializeField] Inventory inventory;
 
-    //[SerializeField] private Button bouton;
 
-    [SerializeField] private Sprite spriteOn;
-    [SerializeField] private Sprite spriteOff;
-
-    [SerializeField] private GameObject bouton;
 
     // Start is called before the first frame update
     void Start()
@@ -24,5 +21,20 @@ public class SerrurePuzzle : Puzzle
     void Update()
     {
         
+    }
+
+    private void OnMouseDown()
+    {
+        if (inventory.currentSelection == null)
+        {
+            return;
+        }
+
+        if (inventory.currentSelection.itemId == key.itemId)
+        {
+            IsValide = true;
+            Validate();
+        }
+
     }
 }
