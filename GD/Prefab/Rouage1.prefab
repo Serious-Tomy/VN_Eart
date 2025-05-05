@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9145953438534149261}
   - component: {fileID: 6292082135273098941}
   m_Layer: 5
-  m_Name: Cle
+  m_Name: Rouage1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 72649a22f93dab244bbd33dbd8025429, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 308fe8b9cb82c1b4da1f0bd5ecbd7498, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boutonImage: {fileID: 0}
-  spriteOn: {fileID: 21300000, guid: 9ebc6586b887d26498d18f57e4fd09ef, type: 3}
-  spriteOff: {fileID: 21300000, guid: 72649a22f93dab244bbd33dbd8025429, type: 3}
+  spriteOn: {fileID: 21300000, guid: 308fe8b9cb82c1b4da1f0bd5ecbd7498, type: 3}
+  spriteOff: {fileID: 0}
   scaleOff: 1
   scaleOn: 1.2
-  id: key
+  id: Wheel1

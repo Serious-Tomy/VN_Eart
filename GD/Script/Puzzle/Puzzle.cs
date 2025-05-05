@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Puzzle : MonoBehaviour
 {
-    protected bool IsValide;
+    protected bool IsValide = true;
     [SerializeField] protected UnityEvent OnValidated;
 
     public void Validate()
@@ -19,5 +19,4 @@ public class Puzzle : MonoBehaviour
         IsValide = false;
         Debug.Log("validé");
     }
-
 }
