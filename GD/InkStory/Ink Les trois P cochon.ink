@@ -461,11 +461,11 @@ matheo:{~Ça couvre la tête.|...Et le cerveau, c’est là que tout se passe. C
 // Ruelle //
 == Antiquaire ==
 
-{~(La boutique de l'antiquaire sent la cire chaude et les souvenirs oubliés.)|
+/*{~(La boutique de l'antiquaire sent la cire chaude et les souvenirs oubliés.)|
 (Des rayonnages croulent sous des objets poussiéreux aux origines incertaines.)|
 (Une horloge ancienne tique fort, comme pour rappeler que le temps presse.)|
 (Le parquet grince à chaque pas, semblant gémir sous le poids de siècles de secrets.)|
-(Un étrange phonographe joue une musique triste et désaccordée, sans qu’on sache d’où elle vient.)}
+(Un étrange phonographe joue une musique triste et désaccordée, sans qu’on sache d’où elle vient.)}*/
 
 + [Observer les articles]
 

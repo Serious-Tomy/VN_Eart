@@ -38,4 +38,10 @@ public class Inventory : MonoBehaviour
         Instantiate(item, transform);
     }
 
+    public void RemoveSelection()
+    {
+        Destroy(currentSelection.gameObject);
+        currentSelection = null;
+    }
+
 }

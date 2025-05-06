@@ -34,6 +34,7 @@ public class SerrurePuzzle : Puzzle
         {
             IsValide = true;
             Validate();
+            inventory.RemoveSelection();
         }
 
     }
