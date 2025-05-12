@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class DetecteurDisque : MonoBehaviour
+public class DetecteurDisque : Puzzle
 {
+    [SerializeField] int nombreDisque;
+    private int totalDisque;
     bool Detecteur;
     // Start is called before the first frame update
     void Start()
@@ -18,19 +20,42 @@ public class DetecteurDisque : MonoBehaviour
 
     }
 
-    private void OnTriggerStay(Collider col)
-    {
+    //private void OnTriggerStay(Collider col)
+    //{
 
-        if (col.CompareTag("Collision") && !Input.GetMouseButton(0))
+    //    if (col.CompareTag("Collision") && !Input.GetMouseButton(0))
+    //    {
+    //        Detecteur = true;
+    //        Debug.Log("dedans");
+    //    }
+    //}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Collision"))
         {
-            Detecteur = true;
-            Debug.Log("dedans");
+            totalDisque += 1;
         }
     }
 
-    private void OnTriggerExit(Collider col)
+
+    private void OnTriggerExit(Collider other)
     {
-        Detecteur = false;
-        Debug.Log("dehors");
+        Debug.Log("detecté");
+        if (other.CompareTag("Collision"))
+        {
+            totalDisque -= 1;
+        }
+    }
+
+    public void CheckDisque()
+    {
+        if (totalDisque != nombreDisque || !enabled)
+        {
+            return;
+        }
+
+        IsValide = true;
+        Validate();
     }
 }

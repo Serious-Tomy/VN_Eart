@@ -2,15 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisquePuzzle : Puzzle
+public class DisquePuzzle : MonoBehaviour
 {
+    [SerializeField] BoxCollider detecteur;
+    [SerializeField] DetecteurDisque solution;
 
     private float angleBefore;
 
 
     void Start()
     {
-
+        detecteur.isTrigger = true;
+        //detecteur.enabled = false;
     }
 
 
@@ -33,9 +36,24 @@ public class DisquePuzzle : Puzzle
 
     private void OnMouseDrag()
     {
+        if (!enabled)
+        {
+            return;
+        }
+
         float angleCurrent = MouseAngle();
         float angleDelta = Mathf.DeltaAngle(angleBefore, angleCurrent);
         transform.Rotate(Vector3.up, -angleDelta);
         angleBefore = angleCurrent;
     }
+
+    private void OnMouseUp()
+    {
+        solution.CheckDisque();
+    }
+
+    //private void OnMouseDown()
+    //{
+    //    detecteur.enabled = false;
+    //}
 }
