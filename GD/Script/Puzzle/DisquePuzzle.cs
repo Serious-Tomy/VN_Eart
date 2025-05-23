@@ -43,13 +43,14 @@ public class DisquePuzzle : MonoBehaviour
 
         float angleCurrent = MouseAngle();
         float angleDelta = Mathf.DeltaAngle(angleBefore, angleCurrent);
-        transform.Rotate(Vector3.up, -angleDelta);
+        transform.Rotate(Vector3.forward, +angleDelta);
         angleBefore = angleCurrent;
     }
 
     private void OnMouseUp()
     {
         solution.CheckDisque();
+        
     }
 
     //private void OnMouseDown()

@@ -11,7 +11,7 @@ public class DetecteurDisque : Puzzle
     // Start is called before the first frame update
     void Start()
     {
-
+        Debug.Log("nombre de disque" + nombreDisque);
     }
 
     // Update is called once per frame
@@ -32,30 +32,36 @@ public class DetecteurDisque : Puzzle
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.CompareTag("Collision"))
         {
             totalDisque += 1;
+            Debug.Log(totalDisque);
         }
     }
 
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("detecté");
+
         if (other.CompareTag("Collision"))
         {
             totalDisque -= 1;
+            Debug.Log(totalDisque);
         }
     }
 
     public void CheckDisque()
     {
-        if (totalDisque != nombreDisque || !enabled)
+        Debug.Log(nombreDisque + " " + totalDisque);
+        if (totalDisque == nombreDisque)
         {
-            return;
+            Debug.Log("if passé");
+            IsValide = true;
+            Debug.Log("IsValide Passé");
+            Validate();
+            Debug.Log("terminé");
         }
-
-        IsValide = true;
-        Validate();
+        
     }
 }

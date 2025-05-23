@@ -10,6 +10,8 @@ public class ActiverPuzzle : Puzzle
     [SerializeField] protected Material mat_on;
     [SerializeField] protected Material mat_off;
     [SerializeField] protected MeshRenderer box;
+    [SerializeField] AnimManager animManager;
+    [SerializeField] string triggerAnim;
 
 
 
@@ -31,6 +33,8 @@ public class ActiverPuzzle : Puzzle
         if (Activer == true)
         {
             Validate();
+            animManager.SetTrigger(triggerAnim);
+            Debug.Log("test");
         }
     }
     public void Activate()

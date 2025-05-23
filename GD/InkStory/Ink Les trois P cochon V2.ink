@@ -63,6 +63,7 @@ Liste des contenue :
 
 pico: C'est du gratin ça ? (hausse les épaules)
 pico: Bon… j’ouvre une bouteille ?
+~ ActivatePuzzle(true)
 pico: Elle a bien dit "je ne veux pas de vos disputes", elle a pas dit que je pouvais pas sortir l'apéro.
 ruby: (Les yeux rivés sur son écran) J'ai hacké les flux météo de la zone 7, qui veux la météo des Pérault ?
 matheo: Quelqu’un peut me passer le sel ?
@@ -1289,3 +1290,6 @@ pierre: (hoche la tête rapidement) Ouais... ouais, j’sais... merci.
 
 + [Sortir]
 -> ActionPrincipale
+
+=== function ActivatePuzzle(active)
+EXTERNAL ActivatePuzzle(active)

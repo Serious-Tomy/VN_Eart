@@ -27,7 +27,7 @@ public class Deplacement : MonoBehaviour
         if (mouvement == true && t < 1.0f)
         {
             t += Time.deltaTime * speed;
-            transform.position = Vector3.Lerp(departs.position, arriver, t);
+            objetDeplacement.transform.position = Vector3.Lerp(departs.position, arriver, t);
         }
     }
 

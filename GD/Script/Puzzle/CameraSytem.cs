@@ -30,7 +30,7 @@ public class CameraSytem : MonoBehaviour
         _currentRotation = Vector3.SmoothDamp(_currentRotation, nextRotation, ref _smoothVelocity, _smoothTime);
         transform.localEulerAngles = _currentRotation;
         transform.position = _target.position - transform.forward * _targetDistance;
-        _rotationX = Mathf.Clamp(_rotationX, -50, 50);
+        _rotationX = Mathf.Clamp(_rotationX, -80, 55);
 
         if (Input.GetKey(KeyCode.Mouse1))
         {
