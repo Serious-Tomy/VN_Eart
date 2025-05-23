@@ -1,4 +1,4 @@
-INCLUDE vnsup_api.ink
+INCLUDE 2d_api.ink
 
 VAR NBbouteillelancer = 0
 VAR ColèreClodo = 0
@@ -31,6 +31,7 @@ VAR clochardstate = "normale"
 
 
 //INTRODUCTION
+~ fadeBg ("Maison", 0.5)
 "Texte à l'introduction qui explique la situation"
 -> ActionPrincipale
 
@@ -91,25 +92,26 @@ VAR ChoixCocho = false
 + {pièceActuelle == "Allée commerçantes"} [Groin Merlin]
 -> GroinMerlin
 //Zone principale
+
 === ActionChangeScene===
 + {pièceActuelle != "Maison"} [Maison] {~texte 1|texte 2|texte 3}
-~ changeBg ("Maison")
+~ fadeBg ("Maison", 0.5)
 ~ pièceActuelle = "Maison"
 ~ last_visited = "Maison"
 -> ActionPrincipale
 + {pièceActuelle != "Ruelle"} [Ruelle] {~texte 1|texte 2|texte 3}
-~ changeBg ("Ruelle")
+~ fadeBg ("Ruelle", 0.5)
 ~ show ("clochardstate")
 ~ pièceActuelle = "Ruelle"
 ~ last_visited = "Ruelle"
 -> ActionPrincipale
 + {pièceActuelle != "Place du village"} [Place du village] {~texte 1|texte 2|texte 3}
-~ changeBg ("Pvillage")
+~ fadeBg ("Pvillage", 0.5)
 ~ pièceActuelle = "Place du village"
 ~ last_visited = "Place du village"
 -> ActionPrincipale
 + {pièceActuelle != "Allée commerçantes"} [Allée commerçantes] {~texte 1|texte 2|texte 3}
-~ changeBg ("AlléeC")
+~ fadeBg ("AlléeC", 0.5)
 ~ pièceActuelle = "Allée commerçantes"
 ~ last_visited = "Allée commerçantes"
 -> ActionPrincipale
