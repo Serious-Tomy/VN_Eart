@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tag: clochardstate
   characterName: clochardstate
-  characterColor: {r: 0.41960788, g: 0.47058827, b: 0.3647059, a: 0}
+  characterColor: {r: 0.41960788, g: 0.47058827, b: 0.3647059, a: 1}
   defaultExpression: base
   expressions:
   - expressionName: base

@@ -13,7 +13,7 @@ public class SOCharacter : ScriptableObject, ISerializationCallbackReceiver
 
     public string tag;
     public string characterName;
-    public Color characterColor;
+    public Color characterColor = Color.white;
     public string defaultExpression;
     [SerializeField] private List<Expression> expressions;
 
