@@ -36,12 +36,10 @@ public class CameraSytem : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0f && _currentDistanceTarget >= _targetMaxDistance)
         {
             _currentDistanceTarget -= zoomSpeed;
-            Debug.Log("haut");
         }
         else if(Input.GetAxis("Mouse ScrollWheel") < 0f && _currentDistanceTarget <= _targetMinDistance)
         {
             _currentDistanceTarget += zoomSpeed;
-            Debug.Log("bas");
         }
         //_targetDistance = Mathf.Clamp(_currentDistanceTarget, _targetMinDistance, _targetMaxDistance);
         //_currentDistanceTarget = Mathf.SmoothDamp(_currentDistanceTarget, _targetDistance, ref _zoomVelocity, _smoothTime);

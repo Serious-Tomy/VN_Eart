@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b0085f48ca7d04287357fce0768021, type: 3}
+  m_Name: Antiquaire
+  m_EditorClassIdentifier: 
+  tag: Antiquaire
+  characterName: Antiquaire
+  characterColor: {r: 0, g: 0.39373994, b: 1, a: 1}
+  defaultExpression: antidle
+  expressions:
+  - expressionName: antidle
+    expressionSprite: {fileID: 21300000, guid: 1e39047bbe04456428858c98b515c168, type: 3}
+  - expressionName: antangry
+    expressionSprite: {fileID: 21300000, guid: 3232957418071fc48beb108bb9283ff1, type: 3}
+  - expressionName: antasking
+    expressionSprite: {fileID: 21300000, guid: be5a740b682b81d4ca6e780525cd953e, type: 3}
+  - expressionName: anthappy
+    expressionSprite: {fileID: 21300000, guid: d4500a880d5b89b4db70e86613b17a17, type: 3}
+  - expressionName: antsad
+    expressionSprite: {fileID: 21300000, guid: 037eb3ca2b3c7244eb9701084df99a9f, type: 3}
