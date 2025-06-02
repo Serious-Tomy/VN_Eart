@@ -15,4 +15,9 @@ public class InventaireInk : MonoBehaviour
     {
         
     }
+
+    //public void AddInk()
+    //{
+    //    //Instantiate(item, transform);
+    //}
 }

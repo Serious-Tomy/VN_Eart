@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3840668438592646249}
-  - component: {fileID: 583752865465613400}
-  - component: {fileID: 3851328776023745790}
   - component: {fileID: -7846037802193769156}
+  - component: {fileID: 1000766657325364297}
+  - component: {fileID: 1181173428626325221}
   m_Layer: 0
   m_Name: Ennemy
   m_TagString: Untagged
@@ -28,21 +28,35 @@ Transform:
   m_GameObject: {fileID: 694678348451666811}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 20}
+  m_LocalScale: {x: 54.01279, y: 54.01279, z: 54.01279}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &583752865465613400
+--- !u!114 &-7846037802193769156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 694678348451666811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27fcee08ffde573498ef3e660324249c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentGrid: {fileID: 0}
+  lastGrid: {fileID: 0}
+--- !u!33 &1000766657325364297
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 694678348451666811}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3851328776023745790
+  m_Mesh: {fileID: 1654130855396111173, guid: 22d36818a641dac4ca7fb418517551a7, type: 3}
+--- !u!23 &1181173428626325221
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -62,7 +76,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fb93bb46aba46ef4886c9bca02b75af5, type: 2}
+  - {fileID: 2100000, guid: 6a625812d0e112c41b3aa8d21d5886be, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -84,17 +98,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-7846037802193769156
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 694678348451666811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27fcee08ffde573498ef3e660324249c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentGrid: {fileID: 0}
-  lastGrid: {fileID: 0}

@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class SerrurePuzzle : Puzzle
 {
-    [SerializeField] Objet key;
-    [SerializeField] Inventory inventory;
+    [SerializeField] ObjetPuzzle key;
+    [SerializeField] InventoryPuzzle inventory;
 
 
 

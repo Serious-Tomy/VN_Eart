@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tag: clochardstate
   characterName: clochardstate
-  characterColor: {r: 0.41960788, g: 0.47058827, b: 0.3647059, a: 1}
-  defaultExpression: antidle
+  characterColor: {r: 0, g: 0, b: 0, a: 1}
+  defaultExpression: cloidle
   expressions:
   - expressionName: cloidle
     expressionSprite: {fileID: 21300000, guid: fefe08ad8e1385b4aa6e0eebfc08997e, type: 3}
