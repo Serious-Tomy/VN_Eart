@@ -157,19 +157,19 @@ pico: C’est cool ça !
 ruby: NON IDIOT !
 ruby: ON A TROIS HEURES AVANT D’ÊTRE FUMÉS COMME DES SAUCISSONS !
 ~ ActivateTimer(true)
-mathéo: Une bombe qui transforme les gens en knackis ?
-mathéo: Relax, vous croyez vraiment à ça ?
+matheo: Une bombe qui transforme les gens en knackis ?
+matheo: Relax, vous croyez vraiment à ça ?
 ruby: C’est pas une blague !
 ruby: Papa ne ferait JAMAIS ça !
 ruby: On doit trouver un abri, le barricader, et SURVIVRE !
-mathéo: C’est une fake news ...
-mathéo: Comme si on allait être transformé en jambon ...
+matheo: C’est une fake news ...
+matheo: Comme si on allait être transformé en jambon ...
 pico: Ah bah c'est sûr ! 
 pico: Ca te changerait pas .
 pico: T'es déjà une Andouille ...
 ruby: (Oh, y'a une MAJ Clash of Clans ...)
-mathéo: Ok, je vous suis .
-mathéo: Ca fera mon footing .
+matheo: Ok, je vous suis .
+matheo: Ca fera mon footing .
 pico: Et si on utilisait la cave, ça devrait le faire, non ?
 ruby: Pas une seconde à perdre, trouvons la cave .
 -> Interieur

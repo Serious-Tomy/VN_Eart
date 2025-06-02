@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class QuitGame : MonoBehaviour
 {
@@ -18,7 +19,6 @@ public class QuitGame : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Application.Quit();
-        Debug.Log("ApplicationFermé");
+        SceneManager.LoadSceneAsync(0);
     }
 }

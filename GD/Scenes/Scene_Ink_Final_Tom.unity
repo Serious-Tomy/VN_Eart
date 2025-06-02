@@ -3625,14 +3625,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characters: []
   charactersDefinitions:
-  - {fileID: 11400000, guid: 60c9cbe5ccc0db242b515f0bfbdcdb54, type: 2}
   - {fileID: 11400000, guid: 614508f137db6c24e918417243b47ae5, type: 2}
   - {fileID: 11400000, guid: 815e9825e0447b74db62663e22b20f3c, type: 2}
-  - {fileID: 11400000, guid: bc8197e905fcbbc43bb39b5ef525001e, type: 2}
-  - {fileID: 11400000, guid: e86458fbd4ce4e748bc7dabee1802782, type: 2}
-  - {fileID: 11400000, guid: f96bfb689bc235a4bb17a6f124d0aee7, type: 2}
-  - {fileID: 11400000, guid: 6ba48b5c100d398468f776e0f2ad27c8, type: 2}
-  - {fileID: 11400000, guid: 8c9b4371dfd15214e9511bc5a5465c6d, type: 2}
   - {fileID: 11400000, guid: 4216c6b90648fc243a43f4e94d867333, type: 2}
   - {fileID: 11400000, guid: 0f2844bc7c808e24687535259d5a4752, type: 2}
   - {fileID: 11400000, guid: 748644e0d8a78664ea5dbf30b7aa93f0, type: 2}
