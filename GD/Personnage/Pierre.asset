@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b0085f48ca7d04287357fce0768021, type: 3}
+  m_Name: Pierre
+  m_EditorClassIdentifier: 
+  tag: pierre
+  characterName: pierre
+  characterColor: {r: 0, g: 0, b: 0, a: 1}
+  defaultExpression: pieridle
+  expressions:
+  - expressionName: pieridle
+    expressionSprite: {fileID: 21300000, guid: ae77065287b5ef946938623337764973, type: 3}
+  - expressionName: pierasking
+    expressionSprite: {fileID: 21300000, guid: b15556ff271a9fa4696abdff0c77cd1a, type: 3}
+  - expressionName: pierhappy
+    expressionSprite: {fileID: 21300000, guid: a311ace2cc842dd4ab42316af822c957, type: 3}
+  - expressionName: piersad
+    expressionSprite: {fileID: 21300000, guid: aefac88da11c92543944573a54cee8c4, type: 3}

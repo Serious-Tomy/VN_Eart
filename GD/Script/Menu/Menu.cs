@@ -19,6 +19,11 @@ public void QuitGame()
     {
         SceneManager.LoadSceneAsync(0);
     }
+
+    public void StartPuzzle()
+    {
+        SceneManager.LoadSceneAsync(2);
+    }
 }
 
 

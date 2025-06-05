@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5b0085f48ca7d04287357fce0768021, type: 3}
+  m_Name: Chef
+  m_EditorClassIdentifier: 
+  tag: chef
+  characterName: chef
+  characterColor: {r: 0, g: 0, b: 0, a: 1}
+  defaultExpression: chefidle
+  expressions:
+  - expressionName: chefidle
+    expressionSprite: {fileID: 21300000, guid: cbe836739c60a4347a3d4d01478803cc, type: 3}
+  - expressionName: chefangry
+    expressionSprite: {fileID: 21300000, guid: 20694f0637967534d9f7b2c6a57c83ad, type: 3}
+  - expressionName: chefasking
+    expressionSprite: {fileID: 21300000, guid: 60c2cd6c7d40bf848b99f82f4dc5ae37, type: 3}
+  - expressionName: chefhappy
+    expressionSprite: {fileID: 21300000, guid: b7f20def80baeaf409e60efa51c1a865, type: 3}
+  - expressionName: chefsad
+    expressionSprite: {fileID: 21300000, guid: 17aa4a682cc5d4741bee4268c1d1ca4a, type: 3}

@@ -7,7 +7,7 @@ public class Deplacement : MonoBehaviour
 {
     
     [SerializeField] private Transform departs;
-    [SerializeField] private Vector3 arriver = new Vector3(5,0,0);
+    [SerializeField] private Transform arriver;
     [SerializeField] private float speed = 1.0f;
     [SerializeField] private GameObject objetDeplacement;
     private float t = 0.0f;
@@ -24,15 +24,20 @@ public class Deplacement : MonoBehaviour
     void Update()
     {
 
-        if (mouvement == true && t < 1.0f)
+        if (mouvement == true)
         {
             t += Time.deltaTime * speed;
-            objetDeplacement.transform.position = Vector3.Lerp(departs.position, arriver, t);
+            objetDeplacement.transform.position = Vector3.Lerp(departs.position, arriver.position, t);
         }
     }
-
+    // && t < 1.0f
 
     private void OnMouseDown()
+    {
+        MouvementValidate();
+    }
+
+    public void MouvementValidate()
     {
         mouvement = true;
     }

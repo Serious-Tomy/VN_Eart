@@ -1,7 +1,6 @@
 INCLUDE 2d_api.ink
 
-// Départ
--> Introduction
+-> Introduction // Départ
 
 == ListeDesVAR ==
 
@@ -9,6 +8,8 @@ INCLUDE 2d_api.ink
 VAR Materiaux = "Aucun"
 VAR Argent = 0
 VAR NbAlchool = 0
+VAR pièceActuelle = "Maison"
+VAR NBaction = 0
 
 //VAR Cave
 VAR BunkerCheck = false
@@ -31,6 +32,10 @@ VAR NNFrappe = 0
 VAR NBbouteillelancer = 0
 VAR Spray = false
 VAR ColèreClodo = 0
+VAR AchatBouteil = false
+VAR AchatPorkia = false
+VAR AchatC4 = false
+VAR AchatBoite = false
 
 //VAR Interieur
 VAR IPad = false
@@ -41,7 +46,6 @@ VAR Cle = false
 //VAR restaurant
 VAR RedPig = false
 VAR RubyDehors = false
-VAR BoissEnergique = false
 VAR Cafeine = false
 
 //VAR Ruin
@@ -51,6 +55,9 @@ VAR C4 = false
 VAR porteOuverte = false
 VAR LivreComptes = false
 VAR NoGlasse = false
+
+//VAR AuChamp
+VAR ChopeParPierre = false
 
 //VAR GroinMerlin
 VAR Bois = false
@@ -67,101 +74,71 @@ VAR connaissentPuits = false
 VAR Eau = false
 VAR PlusDSaut = false
 
-// Permet de savoir qui est où et était où ?
-VAR pièceActuelle = "Maison"
-VAR frere = "??????"
-VAR last_visited = ""
-VAR ChoixCocho = false
 -> ListeDesVAR
 
-== return_to_last ==
-{last_visited == "Interrieur": -> Interieur}
-{last_visited == "Cave": -> Cave}
-{last_visited == "Antiquaire": -> Antiquaire}
-{last_visited == "Clochard": -> Clochard}
-{last_visited == "Ruine": -> Ruine}
-{last_visited == "Puit": -> Puit}
-{last_visited == "Mairie": -> Mairie}
-{last_visited == "AuChamp": -> AuChamp}
-{last_visited == "Restaurent": -> Restaurant}
-{last_visited == "GroinMerlin": -> GroinMerlin}
-{last_visited == "chapitre_1": }
-{last_visited == "chapitre_2": }
-
-== Quels_chon ==
-~ChoixCocho = true
-+ [Pico]
-~frere = "Pico"
-->return_to_last
-+ [Ruby]
-~frere = "Ruby"
-->return_to_last
-+ [Mathéo]
-~frere = "Mathéo"
-->return_to_last
-
 === ActionPrincipale===
-+ [Ce déplacer] Déplacement ...
--> ActionChangeScene
-+ {pièceActuelle == "Maison"} [Interrieur]
++ {pièceActuelle == "Maison"} [Inspecter le rai de chossé]
 -> Interieur
-+ {pièceActuelle == "Maison" && TrappeOpen == true} [Cave]
++ {pièceActuelle == "Maison" && TrappeOpen == true} [Entrée dans la Cave]
 -> Cave
-+ {pièceActuelle == "Ruelle"} [Antiquaire]
++ {pièceActuelle == "Ruelle"} [Entrée chez l'Antiquaire]
 -> Antiquaire
-+ {pièceActuelle == "Ruelle"} [Clochard]
++ {pièceActuelle == "Ruelle"} [S'approcher du Clochard]
 -> Clochard
-+ {pièceActuelle == "Ruelle"} [Ruine]
++ {pièceActuelle == "Ruelle"} [Inspecter les Ruines]
 -> Ruine
-+ {pièceActuelle == "Place du village"} [Puit]
++ {pièceActuelle == "Place du village"} [S'approcher du Puit]
 -> Puit
-+ {pièceActuelle == "Place du village"} [Mairie]
++ {pièceActuelle == "Place du village"} [Entrée dans la Mairie]
 -> Mairie
-+ {pièceActuelle == "Allée commerçantes"} [Au Champ]
++ {pièceActuelle == "Allée commerçantes"} [Entrée dans le Au Champ]
 -> AuChamp
-+ {pièceActuelle == "Allée commerçantes"} [Restaurant]
++ {pièceActuelle == "Allée commerçantes"} [Entrée dans le Restaurant]
 -> Restaurant
-+ {pièceActuelle == "Allée commerçantes"} [Groin Merlin]
++ {pièceActuelle == "Allée commerçantes"} [Entrée dans le Groin Merlin]
 -> GroinMerlin
-//Zone principale
++ [Partir ailleurs] Où ?
+~ NBaction += 1
+-> ActionChangeScene
 
 === ActionChangeScene===
-+ {pièceActuelle != "Maison"} [Maison] {~texte 1|texte 2|texte 3}
-//~ changeBg ("Maison")
++ {pièceActuelle != "Maison"} [La maison] 
+~ fadeBg ("Maison", 0.5)
+narateur: {~texte 1|texte 2|texte 3}
 ~ pièceActuelle = "Maison"
-~ last_visited = "Maison"
 -> ActionPrincipale
-+ {pièceActuelle != "Ruelle"} [Ruelle] {~texte 1|texte 2|texte 3}
-//~ changeBg ("Ruelle")
++ {pièceActuelle != "Ruelle"} [La Ruelle]
+~ fadeBg ("Ruelle", 0.5)
 //~ show ("clochardstate")
+narateur: {~texte 1|texte 2|texte 3}
 ~ pièceActuelle = "Ruelle"
-~ last_visited = "Ruelle"
 -> ActionPrincipale
-+ {pièceActuelle != "Place du village"} [Place du village] {~texte 1|texte 2|texte 3}
-//~ changeBg ("Pvillage")
++ {pièceActuelle != "Place du village"} [La place du village]
+~ fadeBg ("Pvillage", 0.5)
+narateur: {~texte 1|texte 2|texte 3}
 ~ pièceActuelle = "Place du village"
-~ last_visited = "Place du village"
 -> ActionPrincipale
-+ {pièceActuelle != "Allée commerçantes"} [Allée commerçantes] {~texte 1|texte 2|texte 3}
-//~ changeBg ("AlléeC")
++ {pièceActuelle != "Allée commerçantes"} [l'Allée commerçantes]
+~ fadeBg ("AlleeC", 0.5)
+narateur: {~texte 1|texte 2|texte 3}
 ~ pièceActuelle = "Allée commerçantes"
-~ last_visited = "Allée commerçantes"
 -> ActionPrincipale
 
 == Introduction ==
-//~ changeBg ("")
+~ fadeBg("Maison", 0.5)
 //~ music ("")
-Il était une fois en Cochonnésie, dans le paisible village de Cochon-les-Bains, trois petits cochons qui coulais des jours heureux avec leur maman .
-Sauf qu’à côté, au Perrault, vivait les Loups ...
-Pendant longtemps, tout le monde restait de son côté .
-Pas d’histoire .
-Pas de problème .
-Mais ce matin-là ... 
+Narrateur: Il était une fois en Cochonnésie, dans le paisible village de Cochon-les-Bains, trois petits cochons qui coulais des jours heureux avec leur maman.
+Narrateur: Sauf qu’à côté, au Perrault, vivait les Loups...
+Narrateur: Pendant longtemps, tout le monde restait de son côté.
+Narrateur: Pas d’histoire.
+Narrateur: Pas de problème.
+Narrateur: Mais ce matin-là... 
 // *Le téléphone sonne.*
-C’est le père.
-En mission dans les terres du Perrault.
-Sa voix tremble ...
-//~ changeBg ("")
+Narrateur: C’est le père.
+Narrateur: En mission dans les terres du Perrault.
+Narrateur: Sa voix tremble ...
+//OUBLIE t'as pas l'illu
+//~ fadeBg ("untruc", 0.5)
 “Mes enfants, l'heures est grave !"
 "Les loups ont lancer une bombe à gaz, et pas n’importe quel gaz ..."
 "Il transforme les cochons en chaires à saucisses et autre charcuterie !"
@@ -171,7 +148,7 @@ Sa voix tremble ...
 "Trouvez un abri et Renforcez-le !"
 "Je reviendrai si je le peux.”
 // *Sa coupe, bip de téléphone*
-//~ changeBg ("")
+~ fadeBg ("Maison", 0.5)
 ruby: PICO LÂCHE CETTE BOUTEILLE !!
 ruby: T’AS PAS ENTENDU ???
 ruby: ON VA TOUS FINIR EN RILLETTES !!
@@ -179,6 +156,7 @@ pico: Hein ?
 pico: Papa revient ? 
 pico: C’est cool ça !
 ruby: NON IDIOT !
+~ ActivateTimer(true)
 ruby: ON A TROIS HEURES AVANT D’ÊTRE FUMÉS COMME DES SAUCISSONS !
 mathéo: Une bombe qui transforme les gens en knackis ?
 mathéo: Relax, vous croyez vraiment à ça ?
@@ -195,22 +173,23 @@ mathéo: Ok, je vous suis .
 mathéo: Sa fera mon footing .
 pico: Et si on utilisait la cave, ça devrais le faire, non ?
 ruby: Pas une seconde à perdre, trouvons la caves .
--> ActionPrincipale
+-> Interieur
 
 == Interieur ==
-~ last_visited = "Interrieur"
-{ Bunker == false:
-+ [Chercher la cave]
-    ++ [Pico] 
+~ fadeBg ("Maison", 0.5)
+
++ { Bunker == false} [Chercher la cave] Avec ?
+    ** [Pico] 
     pico : Bon ...
     pico : Si je me souvien bien .
     pico : Ce tapis fait office de cache .
     // *Le soulève d’un coup sec*
     pico : Voilà la trappe !
     ~ Bunker = true
+    ~ NBaction += 1
     -> Interieur
 
-    ++ [Ruby]
+    ** [Ruby]
     ruby : Si j’étais une cave, je serais où ?
     // *Regarde le canapé, fait glisser une lampe*
     ruby : Ce canapé est trop lourd pour cacher quoi que ce soit d’utile.
@@ -218,23 +197,26 @@ ruby: Pas une seconde à perdre, trouvons la caves .
     ruby : Non rien ...
     ruby : Rien d'intéressant .
     ruby : Cette maison est une plaie niveau ergonomie !
+    ~ NBaction += 1
     -> Interieur
     
-    ++ [Mathéo]
-    mathéo : Une cave ... 
-    mathéo : C’est sous terre .
-    mathéo : Je vais voir dans le jardin !
+    ** [Mathéo]
+    matheo : Une cave ... 
+    matheo : C’est sous terre .
+    matheo : Je vais voir dans le jardin !
     // *Claque la porte et commence à creuser*
-    mathéo : J’étais censé faire quoi déjà ?
-    mathéo : ...Ah oui, la cave !
-    mathéo : J'ai surement pas creuser assez profond ...
+    ...
+    ...
+    matheo : J’étais censé faire quoi déjà ?
+    matheo : ...Ah oui, la cave !
+    matheo : J'ai surement pas creuser assez profond ...
     // *recommence à creuser*
     ruby : Arrête de creuser ! (On à pas le temps pour tes conneries !)
+    ~ NBaction += 1
     -> Interieur
-}
 
-+ [Chercher des objets utiles]
-    ++ [Pico]
++ [Chercher des objets utiles] Avec ?
+    ** [Pico]
     // *fouille dans le frigo*
     pico : Rien.
     pico : Pas même un canette de bière ...
@@ -244,31 +226,39 @@ ruby: Pas une seconde à perdre, trouvons la caves .
     pico : Colonel Flip-Flop.
     pico : Tu saurais pas où trouver une bonne bouteil ?
     ruby : Pico, arrête de jouer avec cette tong ... 
+    ~ NBaction += 1
     -> Interieur
 
-   ++ [Ruby] { IPad == false }
+   ** [Ruby]
     ruby : Où est-ce que j’ai mis mon iPad ?
     // *ouvre des tiroirs, pousse des magazines, soulève des coussins*
     ruby : Ah-ha !
     ruby : Il était entre deux boîtes de pizza .
     ruby : Toujours 73% de batterie.
     ruby : Le destin est avec moi !
+    ~ NBaction += 1
     ~ IPad = true
     -> Interieur
     
     ** [Mathéo]
-    mathéo : C’est quoi cette boîte énorme ?
+    matheo : C’est quoi cette boîte énorme ?
     // *la soulève, la secoue*
-    mathéo : (C'est pas léger en tout cas !)
-    mathéo : 30 000 pièces, le puzzle ?!
-    mathéo : Y a de quoi en faire du papier paint !
-    mathéo : Allez, je prends.
+    matheo : (C'est pas léger en tout cas !)
+    matheo : 30 000 pièces, le puzzle ?!
+    matheo : Y a de quoi en faire du papier paint !
+    matheo : Allez, je prends.
     ~ Materiaux = "Puzzle"
+    ~ NBaction += 1
     -> Interieur
     
-+ [Ouvrir la cave] { Bunker == true && TrappeOpen == false}
+    ++ //Par défaut
+    ruby : {~Y a plus rien ici |Nada |Ne perdons pas plus de temps }...
+    ~ NBaction += 1
+    -> Interieur
+    
++ { Bunker == true && TrappeOpen == false} [Ouvrir la cave] Avec ?
 { Cle == true :
-++ [Pico]
+    ** [Pico]
     pico : Enfin !
     pico : Elle nous aura fait courir !
     pico : (Hop là, on ouvre ...)
@@ -278,104 +268,123 @@ ruby: Pas une seconde à perdre, trouvons la caves .
     pico : Allez les nazes ! 
     pico : On descend ou quoi ?
     ~ TrappeOpen = true
+    ~ NBaction += 1
     -> Cave
-
-++ [Ruby]
+    
+    ** [Ruby]
     ruby : Le dénouement de toute une aventure ...
     // *CLIC*
     ruby : Voilà, ouverte !
     ruby : Maintenant... préparez-vous à descendre dans l’inconnu.
     pico : C'est bon la MJ, on n'est pas dans l'un de tes JDR !
     ~ TrappeOpen = true
+    ~ NBaction += 1
     -> Cave
-
-** [Mathéo]
-    mathéo : Bon... 
-    mathéo : On a la clé...
-    mathéo : On a la trappe...
-    mathéo : Et ...
-    mathéo : Sa s'ouvrent pas .
-    mathéo : C’est un tour de magie ou ? 
-    mathéo : c’est juste vieux ...
+    
+    ** [Mathéo]
+    matheo : Bon... 
+    matheo : On a la clé...
+    matheo : On a la trappe...
+    matheo : Et ...
+    matheo : Sa s'ouvrent pas .
+    matheo : C’est un tour de magie ou ? 
+    matheo : c’est juste vieux ...
     ruby : (T'est juste le bouffon que tu pensse être ...)
     pico : Laisse moi faire .
     ~ TrappeOpen = true
+    ~ NBaction += 1
     -> Cave
-  } 
+    }
   
   { Cle == false :
   ** [Pico]
-    pico : Une serrure ?
+    pico : C'est fermé à clé ?
     pico : Maman ...
-    mathéo : Je peux peut-être l’ouvrir avec un marteau ?
+    matheo : Je peux peut-être l’ouvrir avec un marteau ?
     pico : Non et non, c’est mort.
     pico : Y’a pas moyen d’ouvrir ce truc sans la clé ...
+    ~ NBaction += 1
     -> Interieur
     
     ** [Ruby]
         ruby : Verrouillée ?
         ruby : Sérieux ?
         ruby : Et évidemment, pas de clé.
+        ~ NBaction += 1
         -> Interieur
         
     ** [Mathéo]
-        mathéo : Qui la verrouillé sérieusement ?
+        matheo : Qui la verrouillé sérieusement ?
         ruby : Maman à tout les coup .
-        mathéo : Ok, logique ...
-        mathéo : On reviendra quand on aura le sésame .
+        matheo : Ok, logique ...
+        matheo : On reviendra quand on aura le sésame .
+        ~ NBaction += 1
         -> Interieur
+        
+    ++ //Par défaut
+    pico : C'est maman qui à a clé .
+    matheo : Elle est parti ou déja ?
+    ruby : A la Mairie .
+    pico : Ok, tous à la Mairie !
+    ~ NBaction += 1
+    -> Interieur
     }
-    
-pico : C'est surement maman qui à a clé !
-mathéo : Elle est parti ou déja ?
-ruby : A la Mairie .
-pico : Ok, tous à la Mairie !      
--> Interieur
+
++ [Sortir de la maison] Pour aller à ?
+-> ActionChangeScene
+
+== Cave == //FIN
+//~ changeBg ("Cave")
+"Texte d'introduction au lieu" {~texte 1|texte 2|texte 3}
+
++ {Materiaux != "Aucun"} [Réparer la cave] Vous appliquer {Materiaux} à la cave .
+~ NBaction += 1
+{Materiaux == "Laine"}//~ changeBg ("CaveLaine")
+{Materiaux == "PostCocho"}//~ changeBg ("CavePoster")
+{Materiaux == "Rigolofleur"}//~ changeBg ("CaveFleur")
+{Materiaux == "Puzzle"}//~ changeBg ("CavePuzzle")
+{Materiaux == "Fourure"}//~ changeBg ("CaveFourure")
+{Materiaux == "Porte"}//~ changeBg ("CavePorte")
+{Materiaux == "Enceinte"}//~ changeBg ("CaveSon")
+{Materiaux == "CochoMobile"}//~ changeBg ("CaveMobile")
+{Materiaux == "OverTune"}//~ changeBg ("CaveArgent")
+{Materiaux == "PatCroute"}//~ changeBg ("CavePate")
+{Materiaux == "Porkia33000"}//~ changeBg ("CaveNokia")
+{Materiaux == "Ciment"}//~ changeBg ("CaveCiment")
+{Materiaux == "Gelée"}//~ changeBg ("CaveGel")
+{Materiaux == "SourceOG"}//~ changeBg ("CaveOG")
+{Materiaux == "Porcium"}//~ changeBg ("CavePorcium")
+-> Cave
+
++ [Bouclé la cave]
+pico: Allez tout le monde dedans !
+pico: Sa passe ou sa casse ...
+DEBUG : Il vous à falue {NBaction} action pour arriver à cette fin !
+// *fermeture*
+narrateur : Les trois frère suite à la fermeture, attendir la fin ...
+narrateur: Un silence pesant règnait dans la cave ...
+
+{Materiaux == "Aucun"} -> Aucun
+{Materiaux == "Laine"} -> Laine
+{Materiaux == "PostCocho"} -> Poster
+{Materiaux == "Rigolofleur"} -> Rigolofleur
+{Materiaux == "Puzzle"} -> Puzzle
+{Materiaux == "Fourure"} -> Fourure
+{Materiaux == "Porte"} -> Porte
+{Materiaux == "Enceinte"} -> MurSon
+{Materiaux == "CochoMobile"} ->Voiture
+{Materiaux == "OverTune"} ->Riche
+{Materiaux == "PatCroute"} ->PateCroute
+{Materiaux == "Porkia33000"} ->Nokia3310
+{Materiaux == "Ciment"} ->Ciment
+{Materiaux == "Gelée"} ->Gelatine
+{Materiaux == "SourceOG"} ->OG
+{Materiaux == "Porcium"} ->Porcium
 
 + [Sortir]
 -> ActionPrincipale
 
-== Cave ==
-~ last_visited = "Cave"
-"Texte d'introduction au lieu" {~texte 1|texte 2|texte 3}
-+ [Action 1]
-++ [Pico Chon]
--> Cave
-
-++ [Ruby Chon]
--> Cave
-
-++ [Mathéo Chon]
--> Cave
-
-+ [Action 2]
-++ [Pico Chon]
--> Cave
-
-++ [Ruby Chon]
--> Cave
-
-++ [Mathéo Chon]
--> Cave
-
-+ [Action 3]
-++ [Pico Chon]
--> Cave
-
-++ [Ruby Chon]
--> Cave
-
-++ [Mathéo Chon]
--> Cave
-
-+ {Materiaux != "Aucun"} [Réparer la cave] Vous appliquer {Materiaux} à la cave
-~ BunkerCheck = true
--> Cave
-
-+ {BunkerCheck == true} [Fermer la cave]
-narrateur : Les trois frère suite à la fermeture, attendir la fin ...
-narrateur: Un silence pesant règnait dans la cave ...
-{Materiaux == "Aucun":
+=Aucun
 narrateur : Bon ...
 narrateur : Ils n’ont rien renforcé ...
 narrateur : Pas une planche .
@@ -398,8 +407,9 @@ narrateur : En fait, Non .
 narrateur : Non ...
 narrateur : Ils ont juste espéré très très fort .
 ~ BadEnd = true
-}
-{Materiaux == "Laine":
+-> END
+
+=Laine
 //~ changeBg ("")
 //~ music ("")
 narrateur : Bon, cette fois ...
@@ -425,9 +435,9 @@ narrateur : Il transforme ...
 narrateur : Nos trois héros, désormais des chaussons fumés .
 narrateur : Repose désormais sur une écharpe carbonisée ...
 narrateur : Quels farce !
-}
 -> END
-{Materiaux == "PostCocho":
+
+=Poster
 //~ changeBg ("cave")
 //~ music ("dramaSadLoop")
 narrateur : Cette fois ...
@@ -463,9 +473,9 @@ narrateur : Un savant mélange de papier mouillé, et de sueur au effluve de jam
 narrateur : Sauver sa vie avec des affiches sexy ...
 narrateur : C’est ... 
 narrateur : Audacieux !
-}
 -> END
-{Materiaux == "Rigolofleur":
+
+=Rigolofleur
 //~ changeBg ("")
 //~ music ("")
 narrateur : Ils ont décoré la cave .
@@ -500,9 +510,9 @@ narrateur : Ruby, Pico et Mathéo ?
 narrateur : Trois bouquet de tranches de rosette artisanale ...
 narrateur : Sérieusement... 
 narrateur : Qui fait confiance à une plante qui danse ?!
-}
 -> END
-{Materiaux == "Puzzle":
+
+=Puzzle
 narrateur : Bon .
 narrateur : C’est officiel .
 narrateur : Ces trois cervelles de jambon ont décidé de se protéger ...
@@ -525,9 +535,40 @@ narrateur : Montage 4 heures .
 narrateur : Durée de vie 3 minutes .
 narrateur : Certification charcutière !
 narrateur : Leur dernière œuvre collective ...
-}
 -> END
-{Materiaux == "Porte":
+
+=Fourure
+narrateur : Bon ...
+narrateur : Apparemment, on en est là .
+narrateur : Des fourrures .
+narrateur : Oui, des peaux de bête .
+narrateur : TENDUES sur les murs comme des trophées de chasse .
+narrateur : “C’est de la loutre !” criait Mathéo, tout fier .
+narrateur : “C’est isolant est trop stylé !”
+narrateur : Il avait même fait des ourlets !
+narrateur : Sauf que voilà ...
+narrateur : Ce n’était pas de la loutre .
+narrateur : Non .
+narrateur : C’était bien de la peau de loup .
+narrateur : Ultra dense, probablement prélevée de manière ...
+narrateur : Douteuse .
+narrateur : Mais le plus absurde ?
+narrateur : Ça a marché .
+narrateur : Pas complètement, hein.
+narrateur : Faut pas rêver ...
+narrateur : Le gaz est entré ...
+narrateur : Légèrement frainer .
+narrateur : Et du coup ?
+narrateur : Pico avais des petits tranches rosées sur les flancs .
+narrateur : Ruby était doter d'un soupçon de jambon dans la voix .
+narrateur : Et Mathéo...
+narrateur : Bah, il continue de penser que c’était de la loutre avec ses oreille panée .
+narrateur : Et franchement ?
+narrateur : Je crois qu’il vaut mieux le laisser croire ça .
+narrateur : Une illusion vaut parfois mieux que la conscience d’avoir tapissé sa cave avec l’ennemi .
+-> END
+
+=Porte
 narrateur : Alors là...
 narrateur : Là !
 narrateur : Nos petits cochons ont trouvé des portes .
@@ -551,9 +592,9 @@ narrateur : Trois terrines de luxe, cuites à l’étouffée dans une chambre en
 narrateur : Parfum résine .
 narrateur : Texture fondante .
 narrateur : De la charcuterie de prestige, édition bois de feuillus !
-}
 -> END
-{Materiaux == "Enceinte":
+
+=MurSon
 narrateur : C’est là qu’en en est la stratégie ?
 narrateur : Mettre la musique à fond ...
 narrateur : Mais pas juste fort .
@@ -587,9 +628,9 @@ narrateur : Un peu mutants ...
 narrateur : Mais encore capables de danser .
 narrateur : Comme quoi, parfois, la musique adoucit vraiment les mœurs .
 narrateur : Même celles d’une bombe ...
-}
 -> END
-{Materiaux == "CochoMobile":
+
+=Voiture
 narrateur : Alors là ...
 narrateur : Une vraie trouvaille !
 narrateur : "La Cochonou Mobile", édition collectionneur, stickers saucisson inclus .
@@ -616,9 +657,9 @@ narrateur : Bref .
 narrateur : Une victoire tiède, à demi-salée ...
 narrateur : Mais au moins, ils sont vivants !
 narrateur : À condition de rester bien au frais ...
-}
 -> END
-{Materiaux == "OverTune":
+
+=Riche
 narrateur : L’argent ne fait pas le bonheur .
 narrateur : Mais un excellents murs anti-gaz ...
 narrateur : Car oui !
@@ -647,9 +688,9 @@ narrateur : Ils ont survécu ...
 narrateur : A sec, et légèrement comestibles .
 narrateur : Comme quoi, même en temps de crise, ... 
 narrateur : l’investissement immobilier reste risqué !
-}
 -> END
-{Materiaux == "PatCroute":
+
+=PateCroute
 narrateur : Non .
 narrateur : NON !
 narrateur : ET NON !!!
@@ -682,8 +723,8 @@ narrateur : Est-ce que je suis le seul à ressentir un début de migraine ?
 narrateur : Bref .
 narrateur : Bravo à eux .
 narrateur : Et honte à la logique !
-}
 -> END
+
 {Materiaux == "PeauBete":
 narrateur : Donc ...
 narrateur : Ils ont acheté des peaux de loutre ...
@@ -705,7 +746,8 @@ narrateur : Non ...
 narrateur : Etaice vraiment de la loutre ?
 }
 -> END
-{Materiaux == "Porkia33000":
+
+=Nokia3310
 narrateur : Alors ça !
 narrateur : Ça dépasse toutes ma compréension ...
 narrateur : Et mes limites de tolérance .
@@ -731,9 +773,9 @@ narrateur : Bravo !
 narrateur : Notre fine équipe à survécu ...<>
 <>, grâce à un rectangle de plastique de l’ère glaciaire .
 narrateur : Félicitations !
-}
 -> END
-{Materiaux == "Ciment":
+
+=Ciment
 narrateur : ...
 narrateur : Attendez ...
 narrateur : Est-ce que...<>
@@ -767,9 +809,9 @@ narrateur : Un bon choix .
 narrateur : Je vais devoir m’allonger .
 narrateur : J’ai besoin de digérer ça ...
 narrateur : Félicitation !
-}
 -> END
-{Materiaux == "Gelée":
+
+=Gelatine
 narrateur : Non mais là je ...
 narrateur : Vous allez me dire que j’invente .
 narrateur : Ils ont utilisé ...
@@ -797,9 +839,9 @@ narrateur : Et une odeur de bonbon chimique pour les dix prochaines années ...
 narrateur : J’ose à peine le dire ...
 narrateur : Grâce à la gelée, ils ont survécu à une attaque chimique ...
 narrateur : Félicitations ...
-}
 -> END
-{Materiaux == "SourceOG":
+
+=OG
 narrateur : Oh, attendez ...
 narrateur : C’est ... 
 narrateur : Est-ce un hommage ?
@@ -835,34 +877,57 @@ narrateur : Bravo !
 narrateur : C’est une fin digne d'un compte !
 narrateur : Et pour une fois ..., <>
 <>elle ne sent pas le jambon ...
-}
--> END
-{Materiaux == "Porcium":
-
-
-A voire
-
-}
 -> END
 
-+ [Sortir]
--> ActionPrincipale
+=Porcium
+narrateur : Je pensais avoir tout vu ...
+narrateur : Mais ça ?
 
-+ [Sortir]
--> ActionPrincipale
-
-// Ruelle //
+narrateur : Nos trois petits cochons .
+narrateur : Ont posé une pierre au lueur étrange au centre de la pièce ...
+narrateur : Elle émettait des vrombissement électromagnétique ...
+narrateur : Et bien sûr .
+narrateur : Personne ne s’est posé de questions sur sont efficacité ?
+narrateur : Le gaz rentra sans aucune difficulté .
+narrateur : Lent, dense, et prêt à transformer nos cochons en carpaccio ...
+narrateur : C'est alors !
+narrateur : Qu'une réaction inatendue était arriver en un éclair .
+narrateur : Et...
+narrateur : Ça dépasse l’improbable !
+narrateur : ... Les cochons c'était transformés !
+narrateur : Pico peut désormais eructé un souffle mentholé tellement concentré qu’il condense les gaz dans l’air .
+narrateur : Ruby est devenue capable de transformer n'importe quel outil électronique en éponge ...
+narrateur : Et Mathéo !
+narrateur : Mathéo ...
+narrateur : Est dans la capacité d'invoquer la N-zone, se qui obstrue la lumierre pendant 0,4 secondes ...
+narrateur : Autrement dit !
+narrateur : Rien de très utile . 
+narrateur : Et pourtant ...
+narrateur : Ils réussire à contenire le gaze !
+narrateur : OUI MONSIEUR !
+narrateur : Devant des pets au Méthanol à 64,7° et une éponge !!!
+narrateur : Le nuage avait DISPARU !
+narrateur : Absorbé par un iPad désormais transformé en éponge ...
+narrateur : Comme s’il y avait une LOGIQUE à ses évenement absurde !
+narrateur : ...
+narrateur : Mais je m’en fiche !
+narrateur : Ils sont vivants, non ?
+narrateur : Un magniphique trio de super zéro !
+narrateur : Une fin ridicule .
+narrateur : Et pourtant ça marche ...
+narrateur : Bravo les ...<>
+<> héros ?
+-> END
 
 == Antiquaire ==
-//~ changeBg ("antiquaire")
 //~ show ("antidle")
 Antiquaire : Bienvenue dans mon antre, les Chons... 
 Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
 -> entree
 
 = entree
-+ [Parler] Avec ?
-    ++ [Pico] { PicoDehors == false }
++ [Parler à l'antiquaire] Avec ?
+    ** { PicoDehors == false } [Pico] 
         pico : Tu vends des objets magiques ?
         pico : J’ai besoin de ma dose.
         //~ show ("antasking")
@@ -878,9 +943,10 @@ Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
         antiquaire : Si tu cherches du bizarre, j’ai entendu parler d’une vieille lampe abandonnée dans les ruines.
         //~ show ("antidle")
         antiquaire : Elle aurait un petit air magique.
+        ~ NBaction += 1
         -> entree
 
-    ++ [Ruby]
+    ** [Ruby]
         ruby : Je cherche du matos électronique, t’as ça ?
         //~ show ("antasking")
         antiquaire : Tu crois être chez Darty ici ?
@@ -894,27 +960,29 @@ Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
         antiquaire : Comment ?!
         antiquaire : Tu insultes ma boutique ?
         ruby : Ton "matériel noble", c’est juste un tas de vieux trucs bons pour le grenier de mémé.
+        ~ NBaction += 1
         -> entree
 
-    ++ [Mathéo]
-        mathéo : Vous avez des objets vraiment précieux ici ?
+    ** [Mathéo]
+        matheo : Vous avez des objets vraiment précieux ici ?
         //~ show ("anthappy")
         antiquaire : J’ai de tout !
         //~ show ("antidle")
         antiquaire : Bijoux anciens, meubles rares, objets d’époque… 
         //~ show ("antsad")
         antiquaire : Malheureusement, l’un des plus beaux m’a été volé.
-        mathéo : Dis-moi qui l’a volé, je vais lui refaire le portrait.
+        matheo : Dis-moi qui l’a volé, je vais lui refaire le portrait.
         //~ show ("antidle")
         antiquaire : Calme-toi.
         antiquaire : C’est mon frère.
         //~ show ("antsad")
         antiquaire : Il squatte devant la boutique et refuse de me rendre ce qu’il m’a pris.
+        ~ NBaction += 1
         -> entree
 
 + [Voler] Avec ?
 //~ show ("antidle")
-    ++ [Pico] { PicoDehors == false }
+    ** { PicoDehors == false } [Pico] 
         pico : Bon... (j’vais m’faire discret et choper un truc intéressant...)
         //~ hide ("antidle")
         pico : Un lustre vénitien en or massif !
@@ -924,9 +992,10 @@ Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
         antiquaire : VOLEUR !
         // Ext jeté dehors à coups de pied dans le gras.
         ~ PicoDehors = true
+        ~ NBaction += 1
         -> entree
 
-    ++ [Ruby]
+    ** [Ruby]
         ruby : (Voyons s’il a planqué un vieil ordi ou une puce quelque part...)
         // Fouille méthodiquement.
         ruby : Rien...
@@ -934,18 +1003,20 @@ Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
         ruby : Même pas un câble USB!
         ruby : Tout ce matos est dépassé !
         ruby : Ce gars vit dans une autre époque, il pige rien à la vraie tech...
+        ~ NBaction += 1
         -> entree
 
-    ** [Mathéo] { Materiaux == "" }
-        mathéo : C’est quoi ça ? (une pelote de laine ?)
-        mathéo : Ça peut toujours servir...
-        mathéo : (Et hope, dans les poche...)
+    ** { Materiaux == "Aucun"} [Mathéo] 
+        matheo : C’est quoi ça ? (une pelote de laine ?)
+        matheo : Ça peut toujours servir...
+        matheo : (Et hope, dans les poche...)
         // La glisse dans son sac en sifflotant.
         ~ Materiaux = "Laine"
+        ~ NBaction += 1
         -> entree
         
-+ [Parler de la boîte] { connai_boite == true }
-    ++ [Pico] { PicoDehors == false }
++ { connai_boite == true } [Parler de la boîte] Avec ?
+    ** { PicoDehors == false } [Pico] 
         pico : J’ai entendu parler d’une boîte...
         pico : Tu saurais où elle est ?
         //~ show ("antasking")
@@ -955,9 +1026,10 @@ Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
         //~ show ("antsad")
         antiquaire : Va le voir, mais vas-y mollo, il est déjà assez fêlé.
         //~ show ("antidle")
+        ~ NBaction += 1
         -> entree
 
-    ++ [Ruby]
+    ** [Ruby]
         ruby : Dis, la boîte là !
         ruby : Tu sais, la boîte ! 
         ruby : En bois ! Genre chaudron, mais avec des trucs en fer dessus…
@@ -975,11 +1047,12 @@ Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
         antiquaire : (Bon débarras.)
         //~ show ("antidle")
         antiquaire : (Elle m’aurait tenu la jambe pendant une heure sinon...)
+        ~ NBaction += 1
         -> entree
 
-    ++ [Mathéo]
-        mathéo : Écoute ma jolie, j’en ai marre de chercher cette boîte.
-        mathéo : Tu sais où elle est ou pas ?
+    ** [Mathéo]
+        matheo : Écoute ma jolie, j’en ai marre de chercher cette boîte.
+        matheo : Tu sais où elle est ou pas ?
         //~ show ("anthappy")
         antiquaire : Aucune idée...
         //~ show ("antidle")
@@ -989,440 +1062,581 @@ Antiquaire : Que venez-vous chercher dans ce capharnaüm de trésors oubliés ?
         antiquaire : En saphir massif !
         antiquaire : Promo du siècle !
         //~ show ("antidle")
-        mathéo : Euche !
-        mathéo : Dit Pico on peux l'ache...
+        matheo : Euche !
+        matheo : Dit Pico on peux l'ache...
         //~ show ("pico")
         pico : Non...
         //~ hide ("pico")
-        mathéo : ...
+        matheo : ...
+        ~ NBaction += 1
         -> entree
 
-+ [Sortir]
++ [Sortir de la boutique]
 //~ show ("anthappy")
 Antiquaire : Au plaisire de vous revoir !
 //~ show ("antidle")
+~ NBaction += 1
 -> ActionPrincipale
 
 == Clochard ==
-"Texte d'introduction au lieu" {~texte 1|texte 2|texte 3}
 
-+[Discussion] // Discuter/acheter avec le clochard
-++ [Pico Chon] // +1 : donne la boîte (de vrai bro)
++ {ClodoKo == false} [Parler au clochard] Avec ?
+++ [Pico Chon]
 {->ParleCloclo1|->ParleCloclo2|->ParleCloclo3|->ParleCloclo4}
 
-++ [Ruby Chon]
-{ClodoKo == false:
+++ {Spray == false && CryptoMoney == false} [Ruby Chon]
+
     {Cafeine == false: // Vous tentez une approche, mais sans succès...
-    Ruby: Pourquoi {~j’irai lui parler ?|faire ?|insister ?}
-    Ruby: Il ne comprendrait pas la moitié de ce que je lui dis.
-    Ruby: {~En plus, je n’ai pas assez d’énergie pour ça...|Peut-être qu’avec un café...|Pfff, j’ai besoin d’un remontant...}
+    ruby: Pourquoi {~j’irai lui parler ?|faire ?|insister ?}
+    ruby: Il ne comprendrait pas la moitié de ce que je lui dis.
+    ruby: {~En plus, je n’ai pas assez d’énergie pour ça...|Peut-être qu’avec un café...|Pfff, j’ai besoin d’un remontant...}
     -> Clochard
     }
-    {Spray == false:
-        {Cafeine == true: // Vous lui apprenez la crypto money ...
+
+    {Cafeine == true:
         {CryptoMoney == false:
-        Ruby: Tu sais que t’as le prérequis pour monter ton empire, là ?
-        Clochard: Tu penses parler à qui au juste ?
-        Ruby: Je parle de toi.
-        Ruby: Avec ce que tu sais faire, tu pourrais vivre de la crypto.
-        Clochard: J’ai déjà vécu du yaourt périmé pendant six jours…
-        Clochard: On m’impressionne plus avec des mots grecs.
-        Ruby: C’est pas grec, c’est numérique.
-        Ruby: V I R T U E L …
-        Ruby: C’est de l’argent, mais sans pièces, ni billets.
-        Clochard: Donc c’est comme les promesses de Bernard, le boulanger.
-        Ruby: Non !
-        Ruby: C’est fiable, et on appelle ça de la blockchain.
-        Clochard: Des chaînes de vélo ?
-        Ruby: Pas ce genre de chaîne !
-        Ruby: C’est un registre décentralisé.
-        Clochard: La seule décentralisation que j’ai connue, c’est quand j’ai dormi entre deux bancs près du parc.
-        Ruby: Bon, regarde…
-        Ruby: Là, j’ai investi dans une pièce qui s’appelle Pigcoin.
-        Clochard: Ouais…
-        Clochard : Et ça sert à quoi, ton “Pig-coin” ?
-        Ruby : À faire des transactions, acheter, vendre, investir…
-        Clochard: Moi j’échange un briquet vide contre une soupe.
-        Clochard: T’appelles pas ça une transaction peut-être ?
-        Ruby: T’as pas tort, mais c’est là que j’y viens…
-        Ruby: Imagine utiliser tes talents de vendeur comme tu le fais à une échelle mondiale.
-        Clochard: J’ai même pas de brosse à dents.
-        Clochard: Et tu veux que je gère une économie planétaire ?
-        Ruby: Si t’as un vieux téléphone, tu peux déjà commencer.
-        Clochard : J’en ai un qui vibre sans prévenir…
-        Ruby: Ça fera l’affaire…
-        Ruby: On va t’ouvrir un portefeuille virtuel.
-        Ruby: Et ensuite…
+        ruby: Tu sais que t’as le prérequis pour monter ton empire, là ?
+        clochard: Tu penses parler à qui au juste ?
+        ruby: Je parle de toi.
+        ruby: Avec ce que tu sais faire, tu pourrais vivre de la crypto.
+        clochard: J’ai déjà vécu du yaourt périmé pendant six jours…
+        clochard: On m’impressionne plus avec des mots grecs.
+        ruby: C’est pas grec, c’est numérique.
+        ruby: V I R T U E L …
+        ruby: C’est de l’argent, mais sans pièces, ni billets.
+        clochard: Donc c’est comme les promesses de Bernard, le boulanger.
+        ruby: Non !
+        ruby: C’est fiable, et on appelle ça de la blockchain.
+        clochard: Des chaînes de vélo ?
+        ruby: Pas ce genre de chaîne !
+        ruby: C’est un registre décentralisé.
+        clochard: La seule décentralisation que j’ai connue, c’est quand j’ai dormi entre deux bancs près du parc.
+        ruby: Bon, regarde…
+        ruby: Là, j’ai investi dans une pièce qui s’appelle Pigcoin.
+        clochard: Ouais…
+        clochard : Et ça sert à quoi, ton “Pig-coin” ?
+        ruby: À faire des transactions, acheter, vendre, investir…
+        clochard: Moi j’échange un briquet vide contre une soupe.
+        clochard: T’appelles pas ça une transaction peut-être ?
+        ruby: T’as pas tort, mais c’est là que j’y viens…
+        ruby: Imagine utiliser tes talents de vendeur comme tu le fais à une échelle mondiale.
+        clochard: J’ai même pas de brosse à dents.
+        clochard: Et tu veux que je gère une économie planétaire ?
+        ruby: Si t’as un vieux téléphone, tu peux déjà commencer.
+        clochard : J’en ai un qui vibre sans prévenir…
+        ruby: Ça fera l’affaire…
+        ruby: On va t’ouvrir un portefeuille virtuel.
+        ruby: Et ensuite…
         ~ CryptoMoney = true
         }
-
+    
         {CryptoMoney == true:
-        Ruby: {Alors, ça mine ?|Les blockchain se portent bien ?|T’as besoin de conseil ?}
-        Clochard: Ouais, ouais...
-        Clochard: {Là, je suis en train de manipuler le commerce...|T’as déjà vu mon dernier NFT "Garbage", il fait un "carton". (littéralement !)|Pas besoin, je suis dans le flux...}
+        ruby: {Alors, ça mine ?|Les blockchain se portent bien ?|T’as besoin de conseil ?}
+        clochard: Ouais, ouais...
+        clochard: {Là, je suis en train de manipuler le commerce...|T’as déjà vu mon dernier NFT "Garbage", il fait un "carton". (littéralement !)|Pas besoin, je suis dans le flux...}
         }
     }
-}
-    {Spray == true:
-    Clochard: {Je veux plus te voir !|Casse-toi !|T’approche pas !}
-    }
-}
-{ClodoKo == true:
-Ruby: {~(Il ne risque pas de dire grand-chose...)|(Il est inconscient...)|(Inconsciemment, je me dis que c’est une bonne chose...)}
-}
 -> Clochard
 
 ++ [Mathéo Chon] // se fait insulter par le clochard
 {->ParleMath1|->ParleMath2|->ParleMath3|->ParleMath4|->ParleMath5}
 
-+[Attaquer]
-++ [Pico Chon] // -1 : il est bourré il lance les bouteilles mais rate comme une merde
++[Attaquer le clochard] Avec ?
+++ {ClodoKo == false} [Pico Chon]
 // Lance une bouteille, elle casse à côté, bruit de verre cassé
 ~NBbouteillelancer += 1
-{ClodoKo == false:
     {NBbouteillelancer == 1:
-    Clochard: T’as essayé de faire quoi là ?
-    Pico: D’te donner à boire...
-    Clochard: Ho ...
-    Clochard: Tu n’étoiras tes cochonneries après hein ?
-    Pico: ...
-    Clochard: ...
+    clochard: T’as essayé de faire quoi là ?
+    pico: D’te donner à boire...
+    clochard: Ho ...
+    clochard: Tu n’étoiras tes cochonneries après hein ?
+    pico: ...
+    clochard: ...
     }
     {NBbouteillelancer >= 2:
-    Clochard:{~Tu comptes en lancer encore combien ?|Tu vas me laisser nettoyer à chaque fois ?|Et de {NBbouteillelancer}, tu les sors d’où toutes ces bouteilles ?}
-    Pico:{?|??|???}
+    clochard:{~Tu comptes en lancer encore combien ?|Tu vas me laisser nettoyer à chaque fois ?|Et de {NBbouteillelancer}, tu les sors d’où toutes ces bouteilles ?}
     }
-}
-{ClodoKo == true:
-    Pico:{?|??|???}
-}
 -> Clochard
 
-++ [Ruby Chon] // 0 : utilise un spray anti-ours sur le clochard
-{Spray == false:
-Clochard: Eh bien…
-Clochard: Que me vaut cette approche ?
-Clochard: Tu veux que je te cagole ma ...?
-Ruby: HAAAA M’APPROCHE PAS !
+** {ClodoKo == false && Spray == false} [Ruby Chon]
+clochard: Eh bien…
+clochard: Que me vaut cette approche ?
+clochard: Tu veux que je te cagole ma ...?
+ruby: HAAAA M’APPROCHE PAS !
 // Coup de spray à Ours pendant 1 min
-Clochard: HAAAA !!!
-Clochard: Sale petite ***** de ****** !
-Clochard: ***** *** ** **** ******* **** !
-Ruby:
+clochard: HAAAA !!!
+clochard: Sale petite ***** de ****** !
+clochard: ***** *** ** **** ******* **** !
+ruby: Je ne m’approche plus de ce type à moins d’un mètre !
 ~Spray = true
-- else:
-Ruby: Je ne m’approche plus de ce type à moins d’un mètre !
-}
 -> Clochard
 
-++ [Mathéo Chon] // +1 : lui met un mach punch stabbé à x2 atk dans sa tête
+++ {NNFrappe <= 9} [Mathéo Chon]
 -> MathAttaqueClo
 
-+[Acheter]
++ {ClodoKo == false} [Commercer avec la clochard]
 -> ClochardBoutique
+
++ {ClodoKo == true} [Fouiller le clochard]
+-> FouillCloclo
 
 +[Partir]
-clochard: À un de ses quatre !
+{ClodoKo == false} clochard: À un de ses quatre !
+{ClodoKo == true} ...
 -> ActionPrincipale
 
-== ClochardBoutique ==
+=FouillCloclo
+* [Boîte à musique]
+pico: La voilà !
+ruby: Alors grouille toi de l'ouvrir !
+pico: Je vois pas comment ...
+ruby: Et bien cherchons !
+ruby Allez on l'ouvre .
+//~ ActivatePuzzle(true)
+-> Clochard
+
+* [Porkia 3310]
+ruby: De se que je sais les Porkia 3310 sont réputé indestructible !
+matheo: Sa repousse le gaz tu coie ?
+ruby: Heuuu...
+pico: On prend .
+~ Materiaux = "Porkia33000"
+-> FouillCloclo
+
+* [C4]
+matheo: Il préparait une guerre ou ?
+ruby: Je ne veux même pas le savoir !
+pico: On prend .
+ruby: ?!?
+matheo: Chaud ...
+~ C4 = true
+-> FouillCloclo
+
+* [Poster cochon]
+matheo: ?!?
+matheo: Pico, mate moi ça !
+pico: !!!
+pico: ON PREND !
+ruby: (Primate ...)
+~ Materiaux = "PostCocho"
+-> FouillCloclo
+
+* [Fourur de ...]
+pico: C'est de la fourure de lou...
+ruby: LOUTRE !
+ruby: De la fourure de loutre ...
+pico: Non, je suis sûr que c'est du ...
+ruby: Mais ezbvkdfg ...
+ruby: Ne dit pas un mots de plus !
+ruby: Pas devant Mathéo ...
+matheo: Cool, cette fourure de loutre !
+matheo: Elle ressemble à Pierre !
+pico: On .
+pico: On ...
+pico: Prend ?
+~ Materiaux = "Fourure"
+-> FouillCloclo
+
++
+ruby: Tu va pas aller jusqu'a lui voler son calçon !
+pico: Non, c'est bon ...
+-> Clochard
+
+= ClochardBoutique 
 Présentation de son commerce froduleux
 
-[Porkia 33000]
-++ [Questionné]
-Clochard: Ha ha, je vois que vous avez du groin, Mrs !
-Clochard: Cette petite merveille se trouve être un ancien modèle de téléphone très recherché…
-Clochard: Son design peut paraître grossier au premier abord, mais je vous garantis que la qualité de ce produit réside ailleurs…
-Clochard: Car oui !
-Clochard: Plus que pour appeler vos proches, vous pouvez casser des noix avec !
-Clochard: DES NOIX !
-Clochard: (Voir bien plus d'ailleurs…)
-Clochard: Alors ?
-Clochard: On fait affaire ?
++ {AchatPorkia == false} [Porkia 3310]
+** [Questionné]
+clochard: Ha ha, je vois que vous avez du groin, Mrs !
+clochard: Cette petite merveille se trouve être un ancien modèle de téléphone très recherché…
+clochard: Son design peut paraître grossier au premier abord, mais je vous garantis que la qualité de ce produit réside ailleurs…
+clochard: Car oui !
+clochard: Plus que pour appeler vos proches, vous pouvez casser des noix avec !
+clochard: DES NOIX !
+clochard: (Voir bien plus d'ailleurs…)
+clochard: Alors ?
+clochard:Il est à 89 oats .
+clochard: On fait affaire ?
 -> ClochardBoutique
+
 ++ [Achat]
+{Argent >= 9:
+clochard: Merci pour l'affaire !
+clochard: N'allez pa vous cassez un doigt avec ...
 ~Materiaux = "Porkia33000"
+~AchatPorkia = true
 -> ClochardBoutique
+}
+clochard: Désolé,{~ j'croie que ta pas les fond ;| reviens quand tu sera plus ... Riche !| Je fais pas crédit ...}
+-> ClochardBoutique
+
 ++ [Troque]
-
+{Materiaux == "Porcium" / Materiaux == "Ciment" / Materiaux == "Gelée" / Materiaux == "SourceOG":
+clochard: Marché conclue !
+clochard: Je vous le troque contre votre {Materiaux} .
+clochard: Merci pour l'affaire !
+~Materiaux = "Porkia33000"
+~AchatPorkia = true
 -> ClochardBoutique
+}
+clochard: Je ne voie rien d'équivalent sur vous ...
+clochard: Revenez quand vous aurez une affaire en béton !
+-> ClochardBoutique
+
 ++ [Reposer l'objet]
-Clochard: {~Dommage...|Pas à votre goût ?|P’t’être une prochaine fois !}
-Clochard: Si vous changez d’avis...
+clochard: {~Dommage...|Pas à votre goût ?|P’t’être une prochaine fois !}
+clochard: Si vous changez d’avis...
 -> ClochardBoutique
 
-+ [C4]
-++[Questioné]
-Clochard: Ou là!
-Clochard: Faite attention avec ce pain…
-Mathéo: Du pain?
-Mathéo: Il n’est pas très appétissant…
-Clochard: Rassurez moi, il n’est pas toujours comme ça…
-???: 
-???: 
-Clochard: Si ?
-Clochard: Enfin peu m'importe, cette merveille tout droit sortie de nos frontières, pourrait vous démolir un charre d'assaut, ou bien labourer une parcelle en un temps record !
-Clochard: Je vous préviens, je ne suis en aucun cas fautive de vos agissements en ce qui concerne son utilisation !
-Clochard: Vous prenez quand même ?
++ {AchatC4 == false} [C4]
+**[Questioné]
+clochard: Ou là!
+clochard: Faite attention avec ce pain…
+matheo: Du pain?
+matheo: Il n’est pas très appétissant…
+clochard: Rassurez moi, il n’est pas toujours comme ça…
+ruby: ... 
+pico: Et bien ...
+clochard: Si ?
+clochard: Enfin peu m'importe, cette merveille tout droit sortie de nos frontières, pourrait vous démolir un charre d'assaut, ou bien labourer une parcelle en un temps record !
+clochard: Je vous préviens, je ne suis en aucun cas fautive de vos agissements en ce qui concerne son utilisation !
+clochard: Vous prenez quand même ?
+clochard: C'est 56 oats ...
 -> ClochardBoutique
 
-++[Achat]
-
+++ [Achat]
+{Argent >= 5:
+clochard: Merci pour l'affaire !
+clochard: Si vous faite tout péter .
+clochard: Je ne vous connais pas ...
+~C4 = true
+~ AchatC4 = true
+-> ClochardBoutique
+}
+clochard: Désolé,{~ j'croie que ta pas les fond .| reviens quand tu sera plus ... Riche !| Je fais pas crédit ...}
 -> ClochardBoutique
 
-++[Troque]
-
+++ [Troque]
+{SacCiment == true / LivreComptes == true:
+clochard: Marché conclue !
+clochard: Je vous le troque contre <>
+{SacCiment == true} <> votre sac de ciment .
+{LivreComptes == true} <> se livre qui m'est familier ...
+clochard: Merci pour l'affaire !
+~C4 = true
+~ AchatC4 = true
+-> ClochardBoutique
+}
+clochard: Je ne voie rien d'équivalent sur vous ...
+clochard: Revenez quand vous aurez une affaire en béton !
 -> ClochardBoutique
 
-++[Reposer l'objet]
-Clochard: {~Domage...|Pas à votre goût ?|P't'être une prochaine fois !}
-Clochard: Si vous changer d'avis...
+++ [Reposer l'objet]
+clochard: {~Dommage...|Pas à votre goût ?|P’t’être une prochaine fois !}
+clochard: Si vous changez d’avis...
 -> ClochardBoutique
 
-+ [Chateau la pompe du XVIIème]
++ {AchatBouteil == false} [Chateau la pompe du XVIIème]
 {->BouteilDeClo1|->BouteilDeClo2|->BouteilDeClo3|->BouteilDeClo4|->BouteilDeClo5}
 
-+ [Boîte à musique]
-++[Questioné]
-Clochard: Une très belle pièce, je vous le dit !
-Clochard: Je ne saurais pas plus vous informer sur son origine…
-Clochard: Mais je croie que sa vient du Perault.
-Clochard: C’est une bonne affaire !
++ {AchatBoite == false} [Boîte à musique]
+**[Questioné]
+clochard: Une très belle pièce, je vous le dit !
+clochard: Je ne saurais pas plus vous informer sur son origine…
+clochard: Mais je croie que sa vient du Perault.
+clochard: C’est une bonne affaire !
+clochard: A seulement 44 oats !
 -> ClochardBoutique
 
 ++[Achat]
-~ ActivatePuzzle(true)
+{Argent >= 4:
+clochard: Merci pour l'affaire !
+ruby : Pas une seconde à perdre !
+ruby : Comment on l'ouvrent ?
+clochard: Je sais pas moi ...
+clochard: Je ne savais mêm pas qu'il y avait un contenue...
+pico : Pas grave on se débrouillera ...
+pico : Merci quand même !
+clochard: ...
+ruby : Aller on l'ouvrent !
+~ AchatBoite = true
+//~ ActivatePuzzle(true)
+-> ClochardBoutique
+}
+clochard: Désolé,{~ j'croie que ta pas un rond .| reviens quand tu sera plus ... Riche !| Je fais pas crédit ...}
 -> ClochardBoutique
 
 ++[Troque]
-Clochard: Pourquoi pas...
+clochard: Pourquoi pas...
 {Lampe == true:
-Clochard: Je vois que vous aver une très belle lampe !
-Clochard: Si vous acceptiez de vous en séparer je...
-LeGroupe: Oui !
-Clochard: Marché conclue !
-~ ActivatePuzzle(true)
+clochard: Je vois que vous aver une très belle lampe !
+clochard: Si vous acceptiez de vous en séparer je...
+legroupe: Oui !
+clochard: Marché conclue !
+ruby : Pas une seconde à perdre !
+ruby : Comment on l'ouvrent ?
+clochard: Je sais pas moi ...
+clochard: Je ne savais mêm pas qu'il y avait un contenue...
+pico : Pas grave on se débrouillera ...
+pico : Merci quand même !
+clochard: ...
+ruby : Aller on l'ouvrent !
+~ AchatBoite = true
+//~ ActivatePuzzle(true)
 -> ClochardBoutique
 -else:
-Clochard: Par contre je ne voie rien de valeur dans se que vous transporter...
-Clochard: Revener me voir si vous trouver quelque chose d'intéressant.
+clochard: Par contre je ne voie rien de valeur dans se que vous transporter...
+clochard: Revener me voir si vous trouver quelque chose d'intéressant.
 -> ClochardBoutique
 }
 
 ++[Reposer l'objet]
-Clochard: {~Domage...|Pas à votre goût ?|P't'être une prochaine fois !}
-Clochard: Si vous changer d'avis...
+clochard: {~Domage...|Pas à votre goût ?|P't'être une prochaine fois !}
+clochard: Si vous changer d'avis...
 -> ClochardBoutique
 
 + [Vous désister]
-Clochard: Aucun problème!
-Clochard: Je serais toujours ouvert.
+clochard: Aucun problème!
+clochard: Je serais toujours ouvert.
 -> Clochard
 
-==BouteilDeClo1
-Clochard: Cette bouteille ?
-Clochard: Désolé, pas à vendre…
-Clochard: C’est pour ma consommation personnelle, hé hé…
+=BouteilDeClo1
+clochard: Cette bouteille ?
+clochard: Désolé, pas à vendre…
+clochard: C’est pour ma consommation personnelle, hé hé…
 -> Clochard
 
-==BouteilDeClo2
-Clochard: Puisque je vous dis qu’elle est pour moi !
-Clochard: C’est si dur à comprendre ?
+=BouteilDeClo2
+clochard: Puisque je vous dis qu’elle est pour moi !
+clochard: C’est si dur à comprendre ?
 -> Clochard
 
-==BouteilDeClo3
-Clochard: Ok c’est bon…
-Clochard: Si vous la voulez tant que ça, va falloir y mettre le prix !
-Clochard: Cette bouteille est un précieux millésime que j’ai chour.!.
-Clochard: Qui m'a gracieusement été offert par Etchebacon, après lui avoir rendu un très gros service…
-Clochard: Alors ?
-Clochard: Tu veux toujours l’acheter ?
-+[Achat]
+=BouteilDeClo3
+clochard: Ok c’est bon…
+clochard: Si vous la voulez tant que ça, va falloir y mettre le prix !
+clochard: Cette bouteille est un précieux millésime que j’ai chour.!.
+clochard: Qui m'a gracieusement été offert par Etchebacon, après lui avoir rendu un très gros service…
+clochard: Alors ?
+clochard: 112 oats .
+clochard: Tu veux toujours l’acheter ?
 
+++ [Achat]
+{Argent >= 11:
+clochard: Raaaa ...
+clochard: Très bien elle est à vous .
+clochard: Merci pour l'affaire ...
+~AchatBouteil = true
+~NbAlchool += 1
+-> ClochardBoutique
+}
+clochard: T'est à sec vieux !
 -> ClochardBoutique
 
 *[Troque]
-Clochard: Non, je ne le troquerait pour rien au monde... (sauf de l'espèce)
+clochard: Non, je ne le troquerait pour rien au monde... (sauf de l'espèce)
 -> BouteilDeClo3
 
 + [Reposer l'objet]
-Clochard: Non ?
-Clochard: Alors évite de me déranger pour rien...
+clochard: Non ?
+clochard: Alors évite de me déranger pour rien...
 -> ClochardBoutique
 
-==BouteilDeClo4
-Clochard: NON MAIS SÉRIEUX ***** !
-Clochard: VOUS AVEZ PAS FINI DE ME FAIR ***** !
-Clochard: ACHETER LE QU’ON EN FINISSENT !
-+[Achat]
+=BouteilDeClo4
+clochard: NON MAIS SÉRIEUX ***** !
+clochard: VOUS AVEZ PAS FINI DE ME FAIR ***** !
+clochard: ACHETER LE QU’ON EN FINISSENT !
 
+++ [Achat]
+{Argent >= 11:
+clochard: ENFIN !
+clochard: Merci pour l'affaire !
+clochard: Tssss ...
+~AchatBouteil = true
+~NbAlchool += 1
+-> ClochardBoutique
+}
+clochard: T'EST TOUJOURS A SEC !
 -> ClochardBoutique
 
 *[Troque]
-Clochard: JE NE TROQUERAIT RIEN CONTRE !
+clochard: JE NE TROQUERAIT RIEN CONTRE !
 -> BouteilDeClo4
 
 + [Reposer l'objet]
-Clochard: TU TE DECIDE OUI OU ****** !
+clochard: TU TE DECIDE OUI OU ****** !
 -> ClochardBoutique
 
-==BouteilDeClo5
-Clochard: ******* DE ******, FINI A LA ****** !
-Clochard: ****** *** *** *** *** ****** **** !
-Clochard: (Bois la bouteil cul sec)
-Clochard: Aher du brais nsgz le kalin ?
-Clochard: HEINNNNN !
-Clochard: ****** …
+=BouteilDeClo5
+clochard: ******* DE ******, FINI A LA ****** !
+clochard: ****** *** *** *** *** ****** **** !
+clochard: (Bois la bouteil cul sec)
+clochard: Aher du brais nsgz le kalin ?
+clochard: HEINNNNN !
+clochard: ****** …
 // Le clochard s'écroule bouré comme un coin…
-Mathéo: 
-Ruby: 
-Pico: 
+~ ClodoKo = true
+matheo: Et regarder, un poivrot !
+ruby: C'est pas drôle !
+pico: Dede à une bien meilleur desente que lui ...
 -> Clochard
 
-==ParleCloclo1
-Pico: T’étais où ce matin ?
-Pico: J’t’ai cherché derrière le AuChamp, personne…
-Clochard: Trop de passage ce matin.
-Clochard: Ici, au moins, j’entends mes pensées.
-Pico: Moi, j’ai failli bosser ce matin
-Clochard: Toi ?
-Pico : Une meuf m’a proposé de l’aide pour un déménagement.
-Pico : J’ai dit ouais.
-Clochard : Et ?
-Pico : Bah j’suis tombé dans ses escaliers avant d’arriver.
-Clochard: C’est le destin qui t’a sauvé.
-Pico : Ouais… (ou mes lacets.)
-Clochard: Moi, j’ai eu une illumination aujourd’hui.
-Pico : Dis-moi ?
-Clochard : J’ai pensé monter un business de parapluies transparents pour chats d’appartement.
-Pico : Attends… quoi ?
-Clochard : “Ils ne sortent pas, mais faut les habituer au style de vie.”
-Pico: Mais mec… 
-Pico: Pourquoi t’es pas millionnaire ?
-Clochard : Parce que j’connaissais personne qui avait un chat et un compte en banque.
-Pico: T’es trop en avance sur ton temps.
-Clochard : Me fait pas rire.
+=ParleCloclo1
+pico: T’étais où ce matin ?
+pico: J’t’ai cherché derrière le AuChamp, personne…
+clochard: Trop de passage ce matin.
+clochard: Ici, au moins, j’entends mes pensées.
+pico: Moi, j’ai failli bosser ce matin
+clochard: Toi ?
+pico : Une meuf m’a proposé de l’aide pour un déménagement.
+pico : J’ai dit ouais.
+clochard : Et ?
+pico : Bah j’suis tombé dans ses escaliers avant d’arriver.
+clochard: C’est le destin qui t’a sauvé.
+pico : Ouais… (ou mes lacets.)
+clochard: Moi, j’ai eu une illumination aujourd’hui.
+pico : Dis-moi ?
+clochard : J’ai pensé monter un business de parapluies transparents pour chats d’appartement.
+pico : Attends… quoi ?
+clochard : “Ils ne sortent pas, mais faut les habituer au style de vie.”
+pico: Mais mec… 
+pico: Pourquoi t’es pas millionnaire ?
+clochard : Parce que j’connaissais personne qui avait un chat et un compte en banque.
+pico: T’es trop en avance sur ton temps.
+clochard : Me fait pas rire.
 -> Clochard
 
-==ParleCloclo2
-Pico: Dit, c’est nouveau ça ?
-Clochard : Tu parles de cette boîte à musique ?
-Pico : Elle fonctionne ?
-Clochard: Pas du tout…
-Pico: Tu l’as depuis quand ?
-Clochard: Deux jours.
-Clochard: Je l’ai trouvée coincée derrière un vieux paravent, près de l'arrière cours d’chez l’antiquaire…
-Pico: Comme toi, un peu.
-Clochard: Ha ha ha !
-Clochard: Elle est bien bonne!
-Clochard : Allez tiens.
-Pico: Hein ?
-Clochard : Prends-la.
-Clochard: De toute façon je ne pourrais surement pas la vendre en l’état… (en plus c’est du toc)
-Pico: Merci bro!
-Clochard: Et si quelqu’un demande d’où elle vient… tu dis que tu l’as trouvée.
-~ ActivatePuzzle(true)
+=ParleCloclo2
+pico: Dit, c’est nouveau ça ?
+clochard : Tu parles de cette boîte à musique ?
+pico : Elle fonctionne ?
+clochard: Pas du tout…
+pico: Tu l’as depuis quand ?
+clochard: Deux jours.
+clochard: Je l’ai trouvée coincée derrière un vieux paravent, près de l'arrière cours d’chez l’antiquaire…
+pico: Comme toi, un peu.
+clochard: Ha ha ha !
+clochard: Elle est bien bonne!
+clochard : Allez tiens.
+pico: Hein ?
+clochard : Prends-la.
+clochard: De toute façon je ne pourrais surement pas la vendre en l’état… (en plus c’est du toc)
+pico: Merci bro!
+clochard: Et si quelqu’un demande d’où elle vient… tu dis que tu l’as trouvée.
+//~ ActivatePuzzle(true)
 -> Clochard
 
-==ParleCloclo3
-Pico: T’as eu d’autres trésors comme ça ?
-Clochard: J’ai eu une horloge, un jour.
-Clochard: Très belle.
-Pico: Elle marchait ?
-Clochard: Elle courait même!
+=ParleCloclo3
+pico: T’as eu d’autres trésors comme ça ?
+clochard: J’ai eu une horloge, un jour.
+clochard: Très belle.
+pico: Elle marchait ?
+clochard: Elle courait même!
 Mathéo: Sérieux !?!
-Clochard: Non…
-Clochard: Elle n'avait pas d’aiguilles, mais j’la vendais comme “conceptuelle”.
-Pico: T’es un artiste, en fait.
-Clochard: Disons que je pourrais te vendre du sable en plein désert !
+clochard: Non…
+clochard: Elle n'avait pas d’aiguilles, mais j’la vendais comme “conceptuelle”.
+pico: T’es un artiste, en fait.
+clochard: Disons que je pourrais te vendre du sable en plein désert !
+clochard: En tout cas, ses discutionn mon fait un bien fou !
+clochard: Tien, pour ta peine ...
+pico: Merci pour la bière bro !
+clochard: Faut bien se serrer les coude entre colègue !
+pico: ...
+ruby: Pfft ... (un vraie clochard !)
 -> Clochard
 
-==ParleCloclo4
-Pico: Un vrai receleur…
-Clochard: Tu l'a dit !
-Clochard: N’hésite pas à me dire si quelque chose te tape à l'œil…
+=ParleCloclo4
+pico: Un vrai receleur…
+clochard: Tu l'a dit !
+clochard: N’hésite pas à me dire si quelque chose te tape à l'œil…
 -> ClochardBoutique
 
-==ParleMath1
-Mathéo: Tiens ?
-Mathéo: La municipalité n'a pas encore jeté les ordures ?
-Clochard: J’ai pas plus bougé que tes deux neurones depuis la maternelle fiston...
-Mathéo: Ah ouais !
-Mathéo: Hé bien, les poubelles du coin on de la réparti à ce que je voie.
+=ParleMath1
+matheo: Tiens ?
+matheo: La municipalité n'a pas encore jeté les ordures ?
+clochard: J’ai pas plus bougé que tes deux neurones depuis la maternelle fiston...
+matheo: Ah ouais !
+matheo: Hé bien, les poubelles du coin on de la réparti à ce que je voie ...
 ~ColèreClodo += 1
 -> Clochard
 
-==ParleMath2
-Clochard: Toujours avec ta coupe de cheveux de patron de salle de sport fictive.
-Mathéo: J’plais à tout le monde.
-Mathéo: Moi !.
-Clochard: Tu plais surtout à ton miroir.
-Clochard: Et encore, il doit craquer sous la pression.
+=ParleMath2
+clochard: Toujours avec ta coupe de cheveux de patron de salle de sport fictive.
+matheo: J’plais à tout le monde.
+matheo: Moi !.
+clochard: Tu plais surtout à ton miroir.
+clochard: Et encore, il doit craquer sous la pression.
 ~ColèreClodo += 1
 -> Clochard
 
-==ParleMath3
-Mathéo: Tu veux un selfie ou un autographe ?
-Clochard: Je veux un miracle !
-Clochard: Genre, une minute sans t’entendre !
-Mathéo: Je suis ce que t’auras jamais.
-Clochard: Ouais… Une tête vide !
-Clochard: Avec une merde dessus.
-Clochard: !?! …
+=ParleMath3
+matheo: Tu veux un selfie ou un autographe ?
+clochard: Je veux un miracle !
+clochard: Genre, une minute sans t’entendre !
+matheo: Je suis ce que t’auras jamais.
+clochard: Ouais ...
+clochard: Une tête vide !
+clochard: Avec une merde dessus !
+clochard: !?! …
 ~ColèreClodo += 1
 -> Clochard
 
-==ParleMath4
-Mathéo: T’es juste aigri parce que j’ai tout ce que t’as pas.
-Clochard: Ouais, t’as raison.
-Clochard: J’ai pas ton QI de frigo débranché…
-Mathéo: Tu dis ça parce que t’as jamais été à mon niveau.
-Clochard: Ton niveau ?
-Clochard: IL EST À LA HAUTEUR DU TROTTOIRE TON NIVEAUX !
-Clochard: C’EST P'T’ÊTRE POUR ÇA QUE JE TE VOIS SOUVENT !
-Mathéo: RETOURNE MANGER DES POUBELLES TOI !
+=ParleMath4
+matheo: T’es juste aigri parce que j’ai tout ce que t’as pas.
+clochard: Ouais, t’as raison.
+clochard: J’ai pas ton QI de frigo débranché…
+matheo: Tu dis ça parce que t’as jamais été à mon niveau.
+clochard: Ton niveau ?
+clochard: IL EST À LA HAUTEUR DU TROTTOIRE TON NIVEAUX !
+clochard: C’EST P'T’ÊTRE POUR ÇA QUE JE TE VOIS SOUVENT !
+matheo: RETOURNE MANGER DES POUBELLES TOI !
 ~ColèreClodo += 1
 -> Clochard
 
-==ParleMath5
-Clochard: TU ME CHERCHE C’EST CA !?!
-Clochard: TU ME CHERCHE !?!
-Mathéo: OUI !
-Clochard: VA Y J’T’ATTEND !
+=ParleMath5
+clochard: TU ME CHERCHE C’EST CA !?!
+clochard: TU ME CHERCHE !?!
+matheo: OUI !
+clochard: VA Y J’T’ATTEND !
 ~ColèreClodo += 1
 -> MathAttaqueClo
 
-==MathAttaqueClo
+=MathAttaqueClo
 {ClodoKo == false:
     {ColèreClodo <= 5:
-    Clochard: T’approche pas…
-    Clochard: T'APROCHE PAS J’AI DIT !
-    Mathéo: Il est grand temps de jeter les ordures !
+    clochard: T’approche pas…
+    clochard: T'APROCHE PAS J’AI DIT !
+    matheo: Il est grand temps de jeter les ordures !
     - else:
-    Clochard: VAS Y !
-    Clochard: APPROCHE MON COCHON !
-    Mathéo: PAS BESOIN DE ME LE DIRE DEUX FOI! 
+    clochard: VAS Y !
+    clochard: APPROCHE MON COCHON !
+    matheo: PAS BESOIN DE ME LE DIRE DEUX FOI! 
     // Mise à tabac
     ~clochardstate = "tabac"
     }
     {ClodoKo == false:
-    Clochard: Ghhe, pftu bra’le payer fther…
-    Clochard: ***** !
+    clochard: Ghhe, pftu bra’le payer fther…
+    clochard: ***** !
     // S'écroule inconscient
-    Mathéo: 
     ~ClodoKo = true
     }
 }
 {ClodoKo == true:
 // Frappe un coup
-Mathéo:{Il à déjà eu son compte…|Bon, juste un coup de pied…|C’est drôle en fait !|Un pour Pico…|Un pour Ruby…|Un pour Moi…|Un pour la voisine…|Un pour le chien de la voisine}
+{NNFrappe == 9} // *Shoryu-Ken !*
+{NNFrappe == 10} // *Hadoken !*
+matheo:{Il à déjà eu son compte…|Bon, juste un coup de plus ...|C’est drôle en fait !|Un pour Pico ...|Un pour Ruby ...|Un pour Moi ...|Un pour le chien de la voisine ...|Shoryu-Ken !|Hadoken !}
     ~NNFrappe += 1
     {NNFrappe >= 10:
-    //Au bout de la ??ème fois
-    Mathéo: Un pour...
-    Pico : C'est bon, STOP!
-    Pico : {A force il va devenir bleu !|C'est pas un sac de frappe !|La bombe finira le travaille...}
-    Ruby : Apprès, il l'avait un peux chercher...
+    matheo: Un pour...
+    pico: C'est bon, STOP!
+    pico: A force il va devenir bleu !
+    pico: C'est pas un sac de frappe !
+    ruby: Apprès, il l'avait un peux chercher...
+    // Frappe un coup, bruis visqueu rapide (Brutality ?)
+    matheo: Ha ! ...
+    matheo: Je croie qu'il vien d'perdre les os ...
+    pico: ... (Non mais c'est pas possible !)
+    ruby: ... 
     }
 }
 -> Clochard
@@ -1430,47 +1644,51 @@ Mathéo:{Il à déjà eu son compte…|Bon, juste un coup de pied…|C’est dr�
 == Ruine ==
 
 + [Fouiller les ruines] Avec ?
-    ++ [Pico] 
-        {LivreComptes == false:
-            pico : Hoho !
-            pico : Mais c’est la planque du clodo, ça.
-            pico : (Y une bouteille à moitié pleine !)
-            // *glou glou glou*
-            pico : Ahhh...
-            pico : Ca c’est de l’essence de bonheur...
-            pico : Mmm ? 
-            pico : C’est quoi ce vieux machin moisi ?
-            pico : “L’enfance des trois petits cochons”... ?
-            // *feuillte les pages*
-            pico : Trop chelou l'histoire !
-            pico : Mais c'est remplie d'indique pour survivre...
-            pico : Je prend, si sa àn marcher pour eux...
-            pico : Sa devrai marcher pour nous aussi !
-            ~ NbAlchool += 1
-            ~ LivreComptes = true
-        - else:
-            pico : C’est bon, j’ai déjà vidé le mini-bar et pris le bouquin.
+    ** {LivreComptes == false} [Pico] 
+        pico : Hoho !
+        pico : Mais c’est la planque du clodo, ça.
+        pico : (Y une bouteille à moitié pleine !)
+        // *glou glou glou*
+        pico : Ahhh...
+        pico : Ca c’est de l’essence de bonheur...
+        pico : Mmm ? 
+        pico : C’est quoi ce vieux machin moisi ?
+        pico : “L’enfance des trois petits cochons”... ?
+        // *feuillte les pages*
+        pico : Trop chelou l'histoire !
+        pico : Mais c'est remplie d'indique pour survivre...
+        pico : Je prend, si sa àn marcher pour eux...
+        pico : Sa devrai marcher pour nous aussi !
+        ~ NbAlchool += 1
+        ~ LivreComptes = true
+        ~ NBaction += 1
+        -> Ruine
+        
+    ** {LivreComptes == true} [Pico]
+        pico : C’est bon, j’ai déjà vidé le mini-bar et pris le bouquin.
             pico : Plus rien ici à part des camlots.
-        }
-    -> Ruine
-
-    ++ [Ruby] 
-        {NoGlasse == false:
-            ruby : Doit bien y avoir des objets électroniques cassés que je peux récupérer ici…
-            // *avance prudemment… glisse sur une brique*
-            ruby : OAAAHHH !
-            // *s’écrase au sol, bruit de plastique qui craque*
-            ruby : … oh non…
-            ruby : MES LUNETTES !
-            ruby : Super… me voilà en 144p…
-            matheo : Bouffonne !
-            ruby : ...En vrai bien vu .
-            ~ NoGlasse = true
-        - else:
-            ruby : J’ai déjà tout fouillé.
-            ruby : Et mes lunettes sont toujours mortes.
-        }
-    -> Ruine
+        ~ NBaction += 1
+        -> Ruine
+    
+    ** {NoGlasse == false} [Ruby] 
+        ruby : Doit bien y avoir des objets électroniques cassés que je peux récupérer ici…
+        // *avance prudemment… glisse sur une brique*
+        ruby : OAAAHHH !
+        // *s’écrase au sol, bruit de plastique qui craque*
+        ruby : … oh non…
+        ruby : MES LUNETTES !
+        ruby : Super… me voilà en 144p…
+        matheo : Bouffonne !
+        ruby : ...En vrai bien vu .
+        ~ NoGlasse = true
+        ~ NBaction += 1
+        -> Ruine
+            
+    ** {NoGlasse == true} [Ruby]
+        ruby : J’ai déjà tout fouillé.
+        ruby : Et mes lunettes sont toujours mortes.
+        ~ NBaction += 1
+        -> Ruine
 
     ++ [Mathéo] 
         {SacCiment == false:
@@ -1482,102 +1700,114 @@ Mathéo:{Il à déjà eu son compte…|Bon, juste un coup de pied…|C’est dr�
             matheo : J’le garde .
             ~ SacCiment = true
             ~ Materiaux += "Ciment"
+            ~ NBaction += 1
         - else:
             matheo : Rien d’autre à foutre ici à part jongler avec les décombres...
+            ~ NBaction += 1
         }
     -> Ruine
 
-+ [Ouvrir la porte]
-    {porteOuverte == false:
-        ++ [Pico]
-        {C4 == true:
-            pico: Hmm… 
-            pico: Cette porte a pas l’air très fan des visites.
-            pico: On va lui faire une petite surprise.
-            // *sort son C4, colle ça au mur comme un chef*
-            pico: FIRE IN THE HOLE !
-            // *explosion sourde – le mur s’écroule*
-            pico: Le mur est mort, mais la porte est intacte.
-            ruby: Y a que la porte qui est intacte gros malin...
-            pico: Hehem, je ...
-            pico: Je prends la porte !
-            pico: Voilà quelque chose qui pourait résister à n'importe quel choc !
-            ~ porteOuverte = true
-            ~ Materiaux += "Porte"
-        - else:
-            pico: Cette porte est plus têtue qu’un cochon à jeun…
-            pico: Si je picole un peu, j’pourrais peut-être oublier qu'elle est fermé ?
-        }
++ {porteOuverte == false} [Ouvrir la porte] Avec ?
+        
+    ** {C4 == true} [Pico]
+        pico: Hmm… 
+        pico: Cette porte a pas l’air très fan des visites.
+        pico: On va lui faire une petite surprise.
+        // *sort son C4, colle ça au mur comme un chef*
+        pico: FIRE IN THE HOLE !
+        // *explosion sourde – le mur s’écroule*
+        pico: Le mur est mort, mais la porte est intacte.
+        ruby: Y a que la porte qui est intacte gros malin...
+        pico: Hehem, je ...
+        pico: Je prends la porte !
+        pico: Voilà quelque chose qui pourait résister à n'importe quel choc !
+        ~ porteOuverte = true
+        ~ Materiaux += "Porte"
+        ~ NBaction += 1
+        -> Ruine
+            
+    ** {C4 == false} [Pico]
+        pico: Cette porte est plus têtue qu’un cochon à jeun…
+        pico: Si je picole un peu, j’pourrais peut-être oublier qu'elle est fermé ?
+        ~ NBaction += 1
+    -> Ruine
+        
+    ** {IPad == true} [Ruby]
+        ruby: Une porte blindée ?
+        ruby : Rien qu’un bon gros hack ne peut pas ouvrir.
+        // *sors son iPad, pianote avec détermination*
+        pico: (Elle est sérieuse ?)
+        pico: Y a même pas de véroue électromachin truc sur ta porte...
+        ruby: Chuuut.
+        // *la porte claque soudainement… et s’ouvre lentement*
+        pico: (Elle …)
+        pico: (Elle a réussi !?!)
+        pico: Mais comment tu ...
+        ruby: Bien sûr que j’ai réussi !
+        ruby: Ayez foi en la tech, paysans .
+        pico: ...
+        ~ porteOuverte = true
+        ~ Lampe = true
+        ~ NBaction += 1
+        -> Ruine
+            
+    ** {IPad == false} [Ruby]
+        ruby : Une porte blindée ?
+        ruby : Avec un bon hack, mais j’ai oublié mon iPad.
+        ruby : Super ...
+        ~ NBaction += 1
         -> Ruine
         
-        ++ [Ruby]
-        {IPad == true:
-            ruby: Une porte blindée ?
-            ruby : Rien qu’un bon gros hack ne peut pas ouvrir.
-            // *sors son iPad, pianote avec détermination*
-            pico: (Elle est sérieuse ?)
-            pico: Y a même pas de véroue électromachin truc sur ta porte...
-            ruby: Chuuut.
-            // *la porte claque soudainement… et s’ouvre lentement*
-            pico: (Elle …)
-            pico: (Elle a réussi !?!)
-            pico: Mais comment tu ...
-            ruby: Bien sûr que j’ai réussi !
-            ruby: Ayez foi en la tech, paysans .
-            pico: ...
-            ~ porteOuverte = true
-            ~ Lampe = true
-        - else:
-            ruby : Une porte blindée ?
-            ruby : Avec un bon hack, mais j’ai oublié mon iPad.
-            ruby : Super ...
-        }
+    ** {RedPig == true} [Mathéo]
+        matheo : Cette porte fait trop la fière !
+        matheo : Je vaislui montrer se que vaux le grand Mathéo, après avoir charger les batteries !
+        matheo : YAAAAAH !
+        // *fonce sur la porte à pleine puissance*
+        // *le battant vibre, puis cède dans un grand fracas métallique*
+        matheo : C’est qui le patron ?
+        matheo : Hmm ?
+        matheo : Une lampe ?
+        matheo : Je prend .
+        ~ porteOuverte = true
+        ~ Lampe = true
+        ~ NBaction += 1
         -> Ruine
-        
-        ++ [Mathéo]
-        {RedPig == true:
-            matheo : Cette porte fait trop la fière !
-            matheo : Je vaislui montrer se que vaux le grand Mathéo, après avoir charger les batteries !
-            matheo : YAAAAAH !
-            // *fonce sur la porte à pleine puissance*
-            // *le battant vibre, puis cède dans un grand fracas métallique*
-            matheo : C’est qui le patron ?
-            matheo : Hmm ?
-            matheo : Une lampe ?
-            matheo : Je prend .
-            ~ porteOuverte = true
-            ~ Lampe = true
-        -else:
-            matheo : Je vais l’ouvrir à l’ancienne...
-            // *Choc violament sourd*
-            matheo : ...ou pas .
-            matheo : J’suis trop à sec .
-            matheo : Avec une Red Pig, j’lui explose les gonds, c'est sûr !
-        }
+            
+    ** {RedPig == false} [Mathéo]
+        matheo : Je vais l’ouvrir à l’ancienne...
+        // *Choc violament sourd*
+        matheo : ...ou pas .
+        matheo : J’suis trop à sec .
+        matheo : Avec une Red Pig, j’lui explose les gonds, c'est sûr !
+        ~ NBaction += 1
         -> Ruine
-    }
- ruby: La porte est déjà ouverte .
- ruby: Faut suivre un peu ...
- -> Ruine
+            
+    ++
+    // *choque voilent*
+    matheo : {Drolement solide comme porte !|J'ai pas dit mon dernier mot ...|Encore un coup !}
+    pico : {Abandone !!!|On perd du temps là !|C'est bon t'a fini ?}
+    ~ NBaction += 1
+    -> Ruine
  
 + [Sortir des ruines]
+~ NBaction += 1
 -> ActionPrincipale
 
 == Puit ==
 
-{PlusDSaut == false:
-+ [Prendre de l'eau]
-    ++ [Pico]
++ {PlusDSaut == false} [Prendre de l'eau] Avec ?
+    ** [Pico]
         pico: (On va chercher l’eau tranquillement...)
         // remonte le seau*
         pico: Et voilà ! 
-        mathéo: rien d'étrande ?
+        matheo: Rien d'étrange ?
         pico: Non...
         pico: Tu t'attendais à quoi ?
         ~ Eau = true
+        ~ NBaction += 1
         -> Puit
 
-    ++ [Ruby]
+    ** [Ruby]
         ruby: Récupérer de l’eau ? (Easy!)
         // *envoie le seau au fond*
         ruby: Et beh il est profond...
@@ -1586,131 +1816,144 @@ Mathéo:{Il à déjà eu son compte…|Bon, juste un coup de pied…|C’est dr�
         ruby: FUTAIN DE MERLE !
         mathéo: Bouffonne.
         ruby: Vas-y, essaye pour voir ?
+        ~ NBaction += 1
         -> Puit
 
-    ++ [Mathéo]
-        mathéo: (OK let's go, comme à la salle...)
+    ** [Mathéo]
+        matheo: (OK let's go, comme à la salle...)
         // *tire d’un coup sec, le seau s’envole, disparaît dans les airs*
-        mathéo: Euh... j'ai peut-être tiré un peu fort.
+        matheo: Euh... j'ai peut-être tiré un peu fort.
         ruby: Braveau !
         ruby: On fait comment maintenant ?
         ~ PlusDSaut = true
+        ~ NBaction += 1
         -> Puit
-}
-+ [Parler au puits]
+        
++ [Parler au puits] Avec ?
 
     { picoDansPuits && rubyDansPuits && mathéoDansPuits:
-        ++ [Pico]
+        ** [Pico]
             pico: Super, on est trois ! 
             pico: C’est le puits-party !
             puits: C’était mieux quand j’étais seul !...
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Ruby]
+        ** [Ruby]
             pico: (Bon, autant y aller à la force maintenant...)
             pico: Donne ta main, Mathéo !
-            mathéo: YAAAAAAAA ! Allez, à toi Ruby !
+            matheo: YAAAAAAAA ! Allez, à toi Ruby !
             ruby: J'arrive...
             pico: Mathéo, ne recommence plus ça, compris ?
             pico: Ta bétise nous aura fais paumer un paquet de temps !
             mathéo: Mais oui, mais oui...
             puits: Vous avez pas oublier quelqu’un ?
             pico: ...
-            mathéo: ...
+            matheo: ...
             ruby: ...
             ~ picoDansPuits = false
             ~ rubyDansPuits = false
             ~ mathéoDansPuits = false
+            ~ NBaction += 3
             -> Puit
 
-        ++ [Mathéo]
-            mathéo: On va s’en sortir, allez, tous ensemble !
+        ** [Mathéo]
+            matheo: On va s’en sortir, allez, tous ensemble !
             puits: Vous êtes lourds...
             puits: LOURDS !
+            ~ NBaction += 1
             -> Puit
     }
 
     { picoDansPuits && rubyDansPuits && !mathéoDansPuits:
-        ++ [Pico]
+        ** [Pico]
             pico: MATHÉO GROS BÂTARD !
             pico: REMONTE-NOUS !
             puits: Il a l’air d’être du genre à "agire avant de réfléchir", non ?
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Ruby]
+        ** [Ruby]
             ruby: MATHÉO ! 
             ruby: AIDE-NOUS À SORTIR D’ICI TOUT E SUITE !
             puits: Vous êtes deux maintenant ?!
             puits: C’est pas une colocation ici...
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Mathéo]
-            mathéo: Allez, j’vous remonte...
+        ** [Mathéo]
+            matheo: Allez, j’vous remonte...
             // *force un peu trop*
-            mathéo: AAAAAAH !!
+            matheo: AAAAAAH !!
             // *Plouf*
             puits: On est un quatuor maintenant ! (Misère...)
             ~ mathéoDansPuits = true
+            ~ NBaction += 1
             -> Puit
     }
 
     { picoDansPuits && !rubyDansPuits && !mathéoDansPuits:
-        ++ [Pico]
+        ** [Pico]
             pico: Remontez-moi, bordel !
             pico: Y’a un gars chelou ici !
             puits: J’préfère "personne mystérieuse", merci.
             -> Puit
 
-        ++ [Ruby]
+        ** [Ruby]
             ruby: Pico ?!
             pico: Remonte-moi ! 
             pico: J’suis pas une truite !
             puits: Elle a l’air plus fiable que toi, ça me rassure.
             ruby: Mathéo, aide-le !
-            mathéo: Demande le moi plus gentillement, merci !
+            matheo: Demande le moi plus gentillement, merci !
             puits: Ha ...
             ruby: Mais quesque tu .?!
             ruby: Haaaa !
             // *Plouf*
             ~ rubyDansPuits = true
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Mathéo]
+        ** [Mathéo]
             pico: Va te faire foutre et aide-moi !
-            mathéo: Hahahaha !
-            mathéo: Grosse merde, ahahahah !
+            matheo: Hahahaha !
+            matheo: Grosse merde, ahahahah !
             puits: Ce lien fraternel est très... 
             pico: Bancale... ?
             puits: Touchant !
             puits: J'allais dire touchant...
+            ~ NBaction += 1
             -> Puit
     }
 
     { connaissentPuits && !picoDansPuits :
-        ++ [Pico]
+        ** [Pico]
             pico: T’as de l’alcool là-dedans ?
             puits: Que du désespoir et des souvenirs d’enfance.
             pico: Pff... 
             pico: Un Ricard aurait été plus utile !
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Ruby]
+        ** [Ruby]
             ruby: C’est qui là-dedans ?
             puits: Un cochon... un écho... un regret.
             ruby: T’es pas un peu drama sur les bords toi ?
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Mathéo]
-            mathéo: Tu veux sortir ?
+        ** [Mathéo]
+            matheo: Tu veux sortir ?
             puits: Évidemment !
-            mathéo: Et moi j’veux une Switch !
-            mathéo: On a tous des rêves.
+            matheo: Et moi j’veux une Switch !
+            matheo: On a tous des rêves.
             puits: Toi, t’es pire que mon karma...
+            ~ NBaction += 1
             -> Puit
     }
 
     { picoDansPuits == false && !connaissentPuits:
-        ++ [Pico]
+        ** [Pico]
             pico: Oh, t’as soif, le puits ?
             puits: Si c'est pas de l'eau, ouais, donne un peu !
             pico: Tiens atra...
@@ -1719,9 +1962,10 @@ Mathéo:{Il à déjà eu son compte…|Bon, juste un coup de pied…|C’est dr�
             puits: Un nouveau colocataire !
             ~ picoDansPuits = true
             ~ connaissentPuits = true
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Ruby]
+        ** [Ruby]
             puits: Hé, pssst ...
             ruby: (J’entends... une voix ?)
             puits: Tu mentend ?
@@ -1729,82 +1973,93 @@ Mathéo:{Il à déjà eu son compte…|Bon, juste un coup de pied…|C’est dr�
             puits: Tu peut aussi me parler si tu veux ?
             ruby: !?!
             ~ connaissentPuits = true
+            ~ NBaction += 1
             -> Puit
 
-        ++ [Mathéo]
-            mathéo: Salut, ça va ?
+        ** [Mathéo]
+            matheo: Salut, ça va ?
             puits: Ça va... ça va... ça va...
-            mathéo: (On dirait un vieux sénile de 67 ans en conflit avec l’Urssaf.)
+            matheo: (On dirait un vieux sénile de 67 ans en conflit avec l’Urssaf.)
             puits: Que...
             puits: Tu serais pas mon ex-beau-fils ?
             ~ connaissentPuits = true
+            ~ NBaction += 1
             -> Puit
     }
-    
-{C4 == true:
-+ [Faire exploser le puits]
-    
-        ++ [Pico]
-            pico: J’en ai marre de réfléchir.
-            pico: On l'explose.
-            // pose le C4*
-            puits: Attends !!!
-            puits: T’as pas réfléchi au...
-            // *BOOOOOM*
-            pico: Voilà !
-            pico: Puits, t’es sauvé ou t’es mort, on verra bien.
-            pico: J'y pense !
-            pico: On pourait utiliser les débris !
-            pico: Y a des cristeaux chelou qui en sont sortie...
-            ~ C4 = false
-            ~ Materiaux = "Porcium"
-            -> Puit
+        ++
+        pico : J'ai pas tres envie de continuer la conversation, et vous ?
+        ruby : Non .
+        matheo : Tout pareill ...
+        ~ NBaction += 1
+        -> Puit
 
-        ++ [Ruby]
-            ruby: Pico vient de... mais il est con ou... ?
-            // *BOOM*
-            puits: AAAH mes articulations !
-            ruby: Miskine...
-            pico: Voilà !
-            pico: Puits, t’es sauvé ou t’es mort, on verra bi...
-            ruby: T'EST UN PUTAIN D'INCONCIENT PICO !
-            pico: Ouais c'est ça...
-            pico: Regarde plus tôt !
-            pico: Y a des cristeaux chelou qui en sont sortie...
-            ~ C4 = false
-            ~ Materiaux = "Porcium"
-            -> Puit
++ {C4 == true} [Faire exploser le puits] Avec ?
 
-        ++ [Mathéo]
-            mathéo: T’es vraiment un débile profond mec ...
-            pico: De quoi tu me parle ?
-            pico: T'a une autre idée ?
-            mathéo:Non ...
-            pico: Bah voilà !
-            puits: J’vous déteste ...
-            // *BOOM*
-            ruby: (On a détruit le patrimoine local...)
-            mathéo: Cool ...
-            mathéo: Regarde Pico !
-            mathéo: Y a des cailloux partout maintenant ...
-            pico: Sa peut surement servir pour la cave !
-            pico: Prend les .
-            ~ C4 = false
-            ~ Materiaux = "Porcium"
-            -> Puit
-}
+    ** [Pico]
+        pico: J’en ai marre de réfléchir.
+        pico: On l'explose.
+        // pose le C4*
+        puits: Attends !!!
+        puits: T’as pas réfléchi au...
+        // *BOOOOOM*
+        pico: Voilà !
+        pico: Puits, t’es sauvé ou t’es mort, on verra bien.
+        pico: J'y pense !
+        pico: On pourait utiliser les débris !
+        pico: Y a des cristeaux chelou qui en sont sortie...
+        ~ C4 = false
+        ~ Materiaux = "Porcium"
+        ~ NBaction += 1
+        -> Puit
+
+    ** [Ruby]
+        ruby: Pico vient de... mais il est con ou... ?
+        // *BOOM*
+        puits: AAAH mes articulations !
+        ruby: Miskine...
+        pico: Voilà !
+        pico: Puits, t’es sauvé ou t’es mort, on verra bi...
+        ruby: T'EST UN PUTAIN D'INCONCIENT PICO !
+        pico: Ouais c'est ça...
+        pico: Regarde plus tôt !
+        pico: Y a des cristeaux chelou qui en sont sortie...
+        ~ C4 = false
+        ~ Materiaux = "Porcium"
+        ~ NBaction += 1
+        -> Puit
+
+    ** [Mathéo]
+        matheo: T’es vraiment un débile profond mec ...
+        pico: De quoi tu me parle ?
+        pico: T'a une autre idée ?
+        matheo:Non ...
+        pico: Bah voilà !
+        puits: J’vous déteste ...
+        // *BOOM*
+        ruby: (On a détruit le patrimoine local...)
+        matheo: Cool ...
+        matheo: Regarde Pico !
+        matheo: Y a des cailloux partout maintenant ...
+        pico: Sa peut surement servir pour la cave !
+        pico: Prend les .
+        ~ C4 = false
+        ~ Materiaux = "Porcium"
+        ~ NBaction += 1
+        -> Puit
+
++ [Partir]
+-> ActionPrincipale
 
 == Mairie ==
-//~ changeBg ("mairie")
 //~ show ("daridle")
-darone : Ah tiens, vous êtes venus faire les imbéciles ici maintenant ?
+darone : Ah tiens, vous êtes encore venus faire les imbéciles ici ?
 
 -> mairie_menu
 
 = mairie_menu
 
-+ [Parler à la secrétaire]
-    ++ [Pico]
++ [Parler à la secrétaire] Avec ?
+    ** [Pico]
         pico : Bonjour, je viens faire une petite formalité.
         secretaire : Oui ? ...
         pico : J’aimerais faire un prêt de 1 milliard de hoats s’il vous plaît.
@@ -1816,9 +2071,10 @@ darone : Ah tiens, vous êtes venus faire les imbéciles ici maintenant ?
         pico : Je reviendrai avec un avocat !
         secretaire : sécurité...
         pico : Ok, ok...
+        ~ NBaction += 1
         -> mairie_menu
 
-    ++ [Ruby]
+    ** [Ruby]
         ruby : Bonjour !
         ruby : J’aimerais changer un truc hyper important.
         secretaire : Une adresse ?
@@ -1832,25 +2088,22 @@ darone : Ah tiens, vous êtes venus faire les imbéciles ici maintenant ?
         secretaire : Et là..., voilà !
         ruby : Trop stylé.
         ~ ruby_nom = "Xx_Dark_Wolf_Killer_69_xX"
+        ~ NBaction += 1
         -> mairie_menu
 
-    ++ [Mathéo]
-    { Expulsion == true :
-        mathéo : Madame la secrétaire.
-        mathéo : J’aimerais lancer une procédure d’expulsion contre un indésirable.
+    ** [Mathéo]
+        matheo : Madame la secrétaire.
+        matheo : J’aimerais lancer une procédure d’expulsion contre un indésirable.
         secretaire : Quel est le motif de la demande ?
-        mathéo : Il sent mauvais.
-        mathéo : Il regarde bizarrement.
-        mathéo : Et il squate les voies publiques.
+        matheo : Il sent mauvais.
+        matheo : Il regarde bizarrement.
+        matheo : Et il squate les voies publiques.
         secretaire : ...Je note.
         ~ Expulsion = true
-    - else :
-        secretaire : Autre chose ?
-        mathéo : Non, c'est bon .
-    }
+        ~ NBaction += 1
     -> mairie_menu
 
-+ [Parler à leur mère]
++ [Parler à leur mère] Avec ?
     ** [Pico]
         pico : Bonjour maman !
         //~ show ("darangry")
@@ -1869,9 +2122,10 @@ darone : Ah tiens, vous êtes venus faire les imbéciles ici maintenant ?
         darone : C'est sutout pour tout siffler !
         //~ show ("daridle")
         darone : C'est bien pour toi que je l'ais fermer à clé .
+        ~ NBaction += 1
         -> mairie_menu
 
-    ++ [Ruby]
+    ++ {connai_boite == false} [Ruby]
         ruby : Maman, c’est grave !
         ruby : Y’a une BOMBE qui va tomber sur le village !
         ruby : On a besoin de la cave, tout de suite !!
@@ -1891,18 +2145,28 @@ darone : Ah tiens, vous êtes venus faire les imbéciles ici maintenant ?
         ruby : Dans un lieu random !
         ruby : J’espère qu’elle est pas gardée par un SDF ou un mec débile ...
         ~ connai_boite = true
+        ~ NBaction += 1
         -> mairie_menu
 
-    ++ [Mathéo]
-        mathéo : M’man… t’as la clé de la cave ?
+    ++ {connai_boite == true} [Ruby]
+        ruby : Tu peux me répéter au sujet de la boîte ?
+        darone : Je l’ai vendue à l'antiquaire ou ...
+        ruby : Merci maman !
+        darone : ... ?! (Ils vont me tuer à courir partout ...)
+        ~ NBaction += 1
+        -> mairie_menu
+
+    ** [Mathéo]
+        matheo : M’man… t’as la clé de la cave ?
         //~ show ("daridle")
         darone : Non .
-        mathéo : …Ok .
+        matheo : …Ok .
+        ~ NBaction += 1
         -> mairie_menu
         
-{ voiture_accident == false:
-+ [Voler la voiture du maire]
-    ++ [Pico] 
+
++ { voiture_accident == false} [Voler la voiture du maire] Avec ?
+    ** [Pico] 
         pico : Héhé, opération "Grand Tour" commence !
         // *Titube jusqu’à la voiture, entre par effraction*
         pico : C’est ouvert !
@@ -1914,55 +2178,60 @@ darone : Ah tiens, vous êtes venus faire les imbéciles ici maintenant ?
         darone : PICO !!!
         secretaire : …Et voilà. Encore un rapport à rédiger.
         ~ voiture_accident = true
+        ~ NBaction += 1
         -> mairie_menu
 
-    ++ [Ruby]
+    ** [Ruby]
         ruby : Je vais m’y prendre comme d’habitude…
         ruby : *Connecte son téléphone au tableau de bord via une appli douteuse*
         ruby : Et... BINGO, accès obtenu !
         ruby : *Monte, regarde les pédales, panique un peu*
         ruby : ... Je sais pas conduire, en fait.
-        mathéo : Bou—
+        matheo : Bou—
         ruby : NON.
-        mathéo : —fonne !
+        matheo : —fonne !
         ruby : *Soupir exaspéré, descend et claque la porte*
         secretaire : Veuillez ne pas forcer les véhicules de fonction, merci.
+        ~ NBaction += 1
         -> mairie_menu
 
-    ++ [Mathéo] 
-        mathéo : Voyons voir cette belle bagnole.
-        mathéo : *Essaie d’ouvrir la portière, mais l’arrache complètement*
-        mathéo : Oups.
-        mathéo : Bon, au moins j’ai du bon métal là-dedans.
-        mathéo : “CochoMobile” en matériaux, validé !
+    ** [Mathéo] 
+        matheo : Voyons voir cette belle bagnole.
+        matheo : *Essaie d’ouvrir la portière, mais l’arrache complètement*
+        matheo : Oups.
+        matheo : Bon, au moins j’ai du bon métal là-dedans.
+        matheo : “CochoMobile” en matériaux, validé !
         secretaire : Monsieur ?! Vous... vous avez VOLÉ une portière ?
-        mathéo : Je préfère dire “prélevé une ressource”.
+        matheo : Je préfère dire “prélevé une ressource”.
         ~ voiture_accident = true
         ~ Materiaux = "CochoMobile"
+        ~ NBaction += 1
         -> mairie_menu
-}  
 
-+ [Sortir]
++ [Sortir de la Mairie]
 //~ show ("daridle")
 darone : Faites pas trop les cons dehors !
 secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
+~ NBaction += 1
 -> ActionPrincipale
 
 == AuChamp ==
-//~ changeBg ("auchamp")
+~ fadeBg ("auchamp", 0.5)
 //~ show ("pieridle")
-+ [Parler à Pierre]
-    ++ [Pico]
++ [Parler à Pierre] Avec ?
+    ** [Pico]
     pico: Salut Pierre, ta des six packs en stock ?
    //~ show ("pierhappy")
     pierre: Évidemment !
     //~ show ("pieridle")
     pierre: Chez moi, c’est XXL ou rien.
     pico: J’te kiffe.
-
+    ~ NBaction += 1
+    ~ NbAlchool += 1
+    ~ Argent += -1
     -> AuChamp
 
-    ++ [Ruby]
+    ** [Ruby]
     ruby: Euh... salut… (C’est quoi cette tête de fou malade ?)
     //~ show ("pierhappy")
     pierre: Bien le bonjour babygirl .
@@ -1975,18 +2244,27 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     // *insère tout le poème complet ici...*
     ruby: (Je vais exploser de gêne...)
     ~ Materiaux = "Rigolofleur"
-
+    ~ NBaction += 1
     -> AuChamp
 
-    ++ [Mathéo]
-    mathéo: Dit donc m’sieur vous êtes tarpin grand. Vous devez avoir une génétique de fou furieux pour la salle.
+    ** [Mathéo]
+    matheo: Dit donc Pierre, tes tarpin grand à regarder de plus près ...
+    matheo: Tu doit avoir une génétique de fou furieux pour la salle.
     //~ show ("pierhappy")
-    pierre: Haha ouais, je peux te soulever carrément tu connais.
-    mathéo: Ah ouais... ça vie ici.
-
+    pierre: Haha ouais, je peux te soulever carrément tu connais .
+    matheo: Ah ouais ... <>
+    <>ça vie ici !
+    ~ NBaction += 1
+    -> AuChamp
+    
+    ++
+    pierre : Bon ...
+    pierre : C'est pas que je ne vous apprécie pas .
+    pierre : Mais j'ai plus rien à vous dire ...
+    ~ NBaction += 1
     -> AuChamp
 
-+ [Explorer le magasin]
++ [Explorer le magasin] Avec ?
     ** [Pico]
     pico: C’est moi ou il y a une promo sur tout ce qui sert à rien ?
     pico: OOOOH ils ont des Boom Box !
@@ -1997,26 +2275,36 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     ruby: C'est super !
     ruby: Bien jouer...
     ~ Materiaux = "Enceinte"
+    ~ NBaction += 1
     -> AuChamp
 
-    ++ [Ruby]
+    ** [Ruby]
     ruby: (Je sais pas si Pierre va se dire à un moment que je me suis rendu compte qu’il me regarde en se cachant derrière les rayons...)
     ruby: (Il me met trop mal à l’aise...)
     ruby: (J’arrive pas à me concentrer.)
     //~ show ("pieridle")
     pierre: (Elle m’a toujours pas remarqué... héhé...)
+    ~ NBaction += 1
     -> AuChamp
 
-    ++ [Mathéo]
-    mathéo: ...
-    mathéo: Cette pubs... (trop hypnotisantes...)
+    ** [Mathéo]
+    matheo: ...
+    matheo: Cette pubs... (trop hypnotisantes...)
     ruby: (Il est resté bloqué sur un écran figé pendant plus de 10 minutes...)
     ruby: C’est grave...
     pico: Tu la dit...
+    ~ NBaction += 1
+    -> AuChamp
+    
+    ++
+    ruby : On peux partire maintenant ?
+    ruby : On a de quoi se deffendre là !
+    ruby : Je le sent mobserver ...
+    ~ NBaction += 1
     -> AuChamp
 
-+ [Fouiller le bureau de Pierre]
-    ++ [Pico]
++ {ChopeParPierre == false} [Fouiller le bureau de Pierre] Avec ?
+    ** [Pico]
     pico: Ohoh... 
     pico: Y'a un tiroir là !
     // *cling cling*... *bam*
@@ -2026,9 +2314,11 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     pico: j’me suis perdu ?
     //~ show ("pieridle")
     pierre: Dégage de là, ta rien à faire ici ...
+    ~ ChopeParPierre = true
+    ~ NBaction += 1
     -> AuChamp
 
-    ++ [Ruby]
+    ** [Ruby]
     ruby: Voyons voir… 
     ruby: C'est son ordi ? (Un peu viellot, mais c'est dans mes corde !)
     ruby: Voyon voir...
@@ -2036,44 +2326,48 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     ruby: Voilà, qu’est-ce que vous feriez sans mes talents de hackeuse professionnelle !
     ruby: Oh non... (je m’en doutais TELEMENT pas ...)
     ruby: Pierre est un loup .
-    mathéo: Un loup ?
+    matheo: Un loup ?
     ruby: Oui, un loup espion...
     pico:  Comme papa .
-    mathéo: Sa explique ça carure de BG ...
+    matheo: Sa explique ça carure de BG ...
     ruby: C’est pour ça qu’il me tourne autour ? 
     ruby: Il veut me croquer !
-    mathéo: Mais... 
-    mathéo: Il ressemble pas à un loup, si ?
+    matheo: Mais... 
+    matheo: Il ressemble pas à un loup, si ?
     ruby: ...
     pico: ...
+    ~ NBaction += 1
     -> AuChamp
 
-    ++ [Mathéo]
-    mathéo: Hmm... 
+    ** [Mathéo]
+    matheo: Hmm... 
     // cling cling, bruit de pièces
     //~ show ("pierasking")
     pierre: Qu’est-ce que tu cherche là !?
-    mathéo: Je... je... 
-    mathéo: Le secret de ta force ?
+    matheo: Je... je... 
+    matheo: Le secret de ta force ?
     //~ show ("pieridle")
     pierre: Tu est sérieux ?
-    mathéo: Oui ?
+    matheo: Oui ?
     //~ show ("piersad")
     pierre: (Il est sérieux...) 
     //~ show ("pieridle")
     pierre: C'est pas là que tu aura ta réponsse...
     pierre: Sort...
+    ~ ChopeParPierre = true
+    ~ NBaction += 1
     -> AuChamp
 
-+ [Sortir]
++ [Sortir du Au Champ]
+~ NBaction += 1
 -> ActionPrincipale
 
 == Restaurant ==
-//~ changeBg ("restaurant")
+~ fadeBg ("restaurant", 0.5)
 //~ show ("chefidle")
 "Texte d'introduction au restaurant" {~texte 1|texte 2|texte 3}
-+ [Parler]
-    ++ [Pico]
++ [Parler à Elshebacon] Avec ?
+    ** [Pico]
     chef: Bonjour mon grand !
     chef: Qu’est-ce qui t'amène ici ?
     //~ show ("chefhappy")
@@ -2118,10 +2412,10 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     chef: Ça me sert plus à rien !
     pico: Merci Chef !
     ~ Materiaux = "Gelée"
+    ~ NBaction += 1
     -> Restaurant
     
-    ++ [Ruby] 
-    { RubyDehors == false:
+    ** { RubyDehors == false} [Ruby] 
     chef: Bonjour ma grande !
     chef: Qu’est-ce qui t’amène ici ?
     //~ show ("chefhappy")
@@ -2141,28 +2435,29 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     chef: HORS DE MA VUE !
     ruby: oe
     ~RubyDehors = true 
-    -else:
-    //~ show ("chefangry")
-    chef: {~ENCORE TOI ?!|JE T'AVAIS DIT DE NE PAS REVENIR !|DÉGUERPIS !}
-    // Claque la porte violament
-    }
+    ~ NBaction += 1
     -> Restaurant
 
-    ++ [Mathéo]
+    ** [Mathéo]
     //~ show ("chefhappy")
     chef: Ah Mathéo, comment ça va ?
     //~ show ("chefidle")
     chef: Tu ne travailles pas aujourd’hui pourtant ?
     chef: Tu viens faire des heures sup ?
-    mathéo: jsp, j’accompagne mon frère et ma sœur au restaurant
+    matheo: jsp, j’accompagne mon frère et ma sœur au restaurant
     //~ show ("chefhappy")
     chef: Dit-leur de venir me voir !
     //~ show ("chefidle")
     chef: Je suis sûr qu’on pourrait bien s’entendre !
+    ~ NBaction += 1
+    -> Restaurant
+    
+    ++
+    matheo: {On devrait pas plus le déranger ...|Non, vraiment !|Bouffon(ne) ... }
     -> Restaurant
 
-* [Commander à boire]
-    ++ [Pico]
+* [Commander à boire] Avec ?
+    ** [Pico]
     pico: Je voudrais du Pastis pour nous trois, c’est ma tournée !
     //~ show ("chefhappy")
     chef: Très bien, 3 pastis pour la 8 !
@@ -2170,20 +2465,21 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     // ILS ONT SERVI LE TRUC
     pico: Super ! (Cul sec !)
     ruby: Wow, il est fort cet alcool...
-    mathéo: Eeuuurrrk c’est pas bon 
+    matheo: Eeuuurrrk c’est pas bon 
     // il recrache sur Ruby
     ruby: HE!
     ruby: Tu nous fais quoi là ?!
-    mathéo: Hahahaha !
+    matheo: Hahahaha !
     ruby: J'en est partout !
     ruby: Nique ta mère fjeuzfphnuezdnjierjiee...
-    mathéo: C'est la tiène aussi !
+    matheo: C'est la tiène aussi !
     ruby: Je ...
-    mathéo: Bouffone...
+    matheo: Bouffone...
     ~NbAlchool += 1
+    ~ NBaction += 1
     -> Restaurant
     
-    ++ [Ruby]
+    ** [Ruby]
     { RubyDehors == false:
     ruby: Café, café! ouh ouh ouh...
     chef: Du café ?
@@ -2196,42 +2492,44 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     // ILS ONT SERVI LE TRUC
     pico: Je passe mon toure...
     pico: C'est pas ma came.
-    mathéo: Eeuuuk, c’est trop amer... 
+    matheo: Eeuuuk, c’est trop amer... 
     ruby: Vous ne buvez pas ?
     pico: Non, je passe mon tours.
-    mathéo: Plus jamais...
+    matheo: Plus jamais...
     ruby: Super, plus pour moi !
     pico: Arrète on sait tous comment réagie avec trop de caféi...
-    mathéo: Trop tard, elle à tout siffler...
+    matheo: Trop tard, elle à tout siffler...
     ~Cafeine = true
     -else:
     //~ show ("chefangry")
     Chef: {~ENCORE TOI ?!|JE T'AVAIS DIT DE NE PAS REVENIR !|DÉGUERPIS !}
     // Claque la porte violament
     }
+    ~ NBaction += 1
     -> Restaurant
         
-    ++ [Mathéo]
+    ** [Mathéo]
     //~ show ("chefhappy")
     chef: Ah Mathéo, tu viens te restaurer ?
-    mathéo: Nan, j’veux juste à boire.
+    matheo: Nan, j’veux juste à boire.
     //~ show ("chefidle")
     chef: Même pas un apéro ?
-    mathéo: Nn, tu me connais...
+    matheo: Nn, tu me connais...
     chef: Très bien, 3 boissons énergisantes pour la 8 !
     //~ hide ("chefidle")
     // ILS ONT SERVI LE TRUC
     pico: C'est pas mauvais, mais c'est pas alcooliser...
     ruby: C'est épais comme de la soupe...
     ruby: (Je préfèrait plus siroté un café bien NOIR !)
-    mathéo: HaaaAA ! 
-    mathéo: Je me sent revigoré.
-    mathéo: Je pourrais faire du déveloper avec un semiremorque !
+    matheo: HaaaAA ! 
+    matheo: Je me sent revigoré.
+    matheo: Je pourrais faire du déveloper avec un semiremorque !
     ruby: (Pt'être pas quand même...)
-    ~BoissEnergique = true
+    ~ RedPig = true
+    ~ NBaction += 1
     -> Restaurant
 
-+ [Rendre service]
++ [Rendre service] Avec ?
     ** [Pico]
     pico: Bonjour m’sieur !
     chef: Tu as besoin de quelque chose ?
@@ -2246,12 +2544,12 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     //~ show ("chefidle")
     chef: Voilà ta paye "avec un suplément" !
     pico: À moi l’alcool !
-    ~Argent += 1
+    ~Argent += 2
     ~NbAlchool += 1
+    ~ NBaction += 1
     -> Restaurant
         
-    ++ [Ruby]
-    { RubyDehors == false:
+    ** {RubyDehors == false} [Ruby]
     ruby: Bonjour monsieur!
     chef: bonjour ma grande, tu cherche quelque chose ?
     ruby: Ouais, des finances.
@@ -2277,20 +2575,16 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     chef: HORS DE MA VUE, SINON CA VA MAL FINIR POUR TOI !!!
     ruby: C’est toi qui n'a pas de goût!
     ~RubyDehors = true 
-    -else:
-    //~ show ("chefangry")
-    Chef: {~ENCORE TOI ?!|JE T'AVAIS DIT DE NE PAS REVENIR !|DÉGUERPIS !}
-    // Claque la porte violament
-    }
+    ~ NBaction += 1
     -> Restaurant
         
-    ++ [Mathéo]
-    mathéo: Salut Chef !
+    ++ {Argent <= 9} [Mathéo]
+    matheo: Salut Chef !
     //~ show ("chefhappy")
-    chef: Ah Mathéo !
+    chef: Mathéo !
     //~ show ("chefidle")
     chef: Tu veux aider en salle ?
-    mathéo: Oe .
+    matheo: Oe .
     //~ show ("chefhappy")
     chef: Génial !
     chef: Mets-toi en tenue, hop hop hop !
@@ -2298,22 +2592,26 @@ secretaire : Revenez quand vous voulez (mais pas trop souvent ...)
     //~ show ("chefidle")
     chef: Merci ! Voilà ta paye !
     ~Argent += 1
+    ~ NBaction += 1
     -> Restaurant
+    
++ [Sortir du retaurant]
+~ NBaction += 1
+-> ActionPrincipale
 
 == GroinMerlin ==
-//~ changeBg ("groinmerlin")
+~ fadeBg ("groinmerlin", 0.5)
 //~ show ("pamidle")
 
-{ Bois == true && Brique == true && Paille == true:
-+ [Payer]
-pamela: C'est se que vous cherchiez ?
-pico: Oui !
-pamela: Donc sa nous fait un totale de...
-//~ show ("pamhappy")
-pamela: 36,45 Hauts.
++ { Bois == true && Brique == true && Paille == true } [Passer à la caisse]
+    pamela: C'est se que vous cherchiez ?
+    pico: Oui !
+    pamela: Donc sa nous fait un totale de...
+    //~ show ("pamhappy")
+    pamela: 36,45 Hauts.
     {Argent >= 3: 
     pamela: Merci pour votre achat, et ne revenez pas !
-    pico: C'est bon...
+    pico: Oe, c'est bon...
     ~ Materiaux = "SourceOG"
     ~ Bois = false
     ~ Brique = false
@@ -2324,28 +2622,28 @@ pamela: 36,45 Hauts.
     //~ show ("pamangry")
     pamela: Alors veuiller reposer vos achats et disparaitre de ma vue !
     }
-pico: Pas besoin d'être aussi directe !
-ruby: De toute façon, il n'y avait pas de rayon électronique...
-//~ show ("pamidle")
-pamela: Mathéo !
-mathéo: Quoi ?
-//~ show ("pamlove")
-pamela: Toi, tu sera toujours le bien venue...
--> GroinMerlin
-}
+    pico: Pas besoin d'être aussi directe !
+    ruby: De toute façon, il n'y avait pas de rayon électronique...
+    //~ show ("pamidle")
+    pamela: Mathéo !
+    matheo: Quoi ?
+    //~ show ("pamlove")
+    pamela: Toi, tu sera toujours le bien venue...
+    ~ NBaction += 1
+    -> GroinMerlin
 
-+ [Parler avec la vendeuse]
-    ++ [Pico]
++ [Parler avec la vendeuse] Avec ?
+    ** [Pico]
         //~ show ("pamidle")
         pamela: Je peux vous aider ?
         pico: Ces perceuses font du bruit...
         pico: Elles me parlent.
         //~ show ("pamsad")
-        pamela: Je n’ai pas signé pour ça.
-
+        pamela: ... (Je n’ai pas signé pour ça !)
+        ~ NBaction += 1
         -> GroinMerlin
 
-    ++ [Ruby]
+    ** [Ruby]
         //~ show ("pamidle")
         pamela: Bonjour, je peux vous aider ?
         ruby: Vous avez des RTX 4090 ?
@@ -2355,85 +2653,62 @@ pamela: Toi, tu sera toujours le bien venue...
         ruby: Vendez des clous et taisez-vous.
         //~ show ("pamangry")
         pamela: Vous pouvez aussi sortir.
-
+        ~ NBaction += 1
         -> GroinMerlin
 
-    ++ [Mathéo]
+    ** [Mathéo]
         //~ show ("pamidle")
         pamela: Je peux t'aider ?
-        mathéo: Si t’étais une brique, je te poserais au sommet de ma maison.
+        matheo: Si t’étais une brique, je te poserais au sommet de ma maison.
         //~ show ("pamasking")
         pamela: Euh... 
         pamela: c’est gênant ou mignon ?
-        mathéo: Les deux.
+        matheo: Les deux.
         //~ show ("pamlove")
-
+        ~ NBaction += 1
         -> GroinMerlin
 
-+ [Aller dans les rayons]
++ [Aller dans les rayons] Avec ?
     
-    ++ [Pico]
+    ** [Pico]
         pico: J’ai trouvé un truc qui mousse !
         ruby: !?!
         pico: Sa sort toute seule...
-        mathéo: Ça bulle, ça mousse...
+        matheo: Ça bulle, ça mousse...
         pico: On dirais une peinte magic !
-        mathéo: Soiré mousse !
+        matheo: Soiré mousse !
         //~ show ("pamangry")
         pamela: Arrêtez de déteriorer tout ce que vous touchez !
+        ~ NBaction += 1
         -> GroinMerlin
 
-    ++ [Ruby]
-        ruby: Ce lave-linge pourrait faire tourner Minecraft...
+    ** [Ruby]
+        ruby: Ce lave-linge pourrait faire tourner Pigcraft...
         ruby: (Voyon voire...)
         ruby: ... 
         ruby: Zut !
         // La machine s’envole
-        mathéo: T’as pété le plafond, meuf.
+        matheo: T’as pété le plafond, meuf.
         ruby: La vendeuse va me saucisser c’est sûr !
-        mathéo: Bouffonne .
+        ~ NBaction += 1
+        matheo: Bouffonne .
         -> GroinMerlin
 
-    ++ [Mathéo]
-        mathéo: Une mouche... (elle me défie !)
-        mathéo: (Ce marteau devrais suffir...)
-        mathéo: Justice !
+    ** [Mathéo]
+        matheo: Une mouche... (elle me défie !)
+        matheo: (Ce marteau devrais suffir...)
+        matheo: Justice !
         // Démolie les rayons
         //~ show ("pamangry")
         pamela: TA DÉMOLI LE RAYON !
         //~ show ("pamlove")
         pamela: … (Mais quelle puissance.)
+        ~ NBaction += 1
         -> GroinMerlin
 
-{ SacCiment == true:
-+ [Fabriquer du ciment]
-    ++ [Ruby]
-        { Eau == true:
-            ruby: Bon, let's go.
-            ruby: Plus qu'a crafter.
-            ruby: ... 
-            ruby: Ça colle bien, j'ai du ciment !
-            ~ Materiaux = "Ciment"
-        -else:
-            ruby: Ok, j’ai le ciment... 
-            ruby: Mais il manque l'eau là...
-        }
-        -> GroinMerlin
 
-    ++ [Mathéo]
-        { Eau == true:
-            mathéo: C’est comme un gâteau, non ?
-            mathéo: Tu mélanges et hop.
-            mathéo: AAAAAAH !
-            mathéo: Mes mains sont prises dedans !
-            ruby: Bouffon !
-            ~ CimentMain = true
-        -else:
-            mathéo: Faut pas juste verser de la poudre comme ça ?
-        }
-        -> GroinMerlin
-
-    ++ [Pico]
++ { SacCiment == true} [Fabriquer du ciment] Avec ?
+    ** [Pico]
         { Eau == true:
             pico: Eau... 
             pico: Ciment... 
@@ -2442,24 +2717,56 @@ pamela: Toi, tu sera toujours le bien venue...
             pico: C'est pas si compliquer.
             {CimentMain == true}pico: Hein Mathéo ?
             ~ Materiaux = "Ciment"
+            ~ SacCiment = false
         -else:
             pico: J’ai le ciment, mais c'est tout...
             pico: Faut un fluide... (C'est quoi le truc que dilue avec mon pastis déja ?)
         }
+        ~ NBaction += 1
         -> GroinMerlin
-}
 
-{ LivreComptes == true:
-+ [Chercher les matériaux OG]
+    ** [Ruby]
+        { Eau == true:
+            ruby: Bon, let's go.
+            ruby: Plus qu'a crafter.
+            ruby: ... 
+            ruby: Ça colle pas bien ...
+            ruby: J'ai raté le ciment !
+            ~ Materiaux = "Ciment"
+            ~ SacCiment = false
+        -else:
+            ruby: Ok, j’ai le ciment... 
+            ruby: Mais il manque l'eau là...
+        }
+        ~ NBaction += 1
+        -> GroinMerlin
+
+    ** [Mathéo]
+        { Eau == true:
+            matheo: C’est comme un gâteau, non ?
+            matheo: Tu mélanges et hop.
+            matheo: AAAAAAH !
+            matheo: Mes mains sont prises dedans !
+            ruby: Bouffon !
+            ~ CimentMain = true
+        -else:
+            matheo: Faut pas juste verser de la poudre comme ça ?
+        }
+        ~ NBaction += 1
+        -> GroinMerlin
+
+
++ { LivreComptes == true} [Chercher les matériaux OG] Avec ?
     ** [Pico]
         pico: Voyons ce livre...
         pico: Oooooh !
-        pico: C’est quoi ce matériau ? J’aime bien, je prends.
+        pico: J'ai trouver le bois !
         ~ Bois = true
         { Bois == true && Brique == true && Paille == true:
         ~ LivreComptes = false
         pico: C'est bon, je croie qu'on à tout.
         }
+        ~ NBaction += 1
         -> GroinMerlin
 
     ** [Ruby]
@@ -2468,8 +2775,8 @@ pamela: Toi, tu sera toujours le bien venue...
         ruby: C’est décidément très rustique, mais si ça marches...
         ruby: Mathéo !
         ruby: J'ai besoin de tes muscles !
-        mathéo: Ok, pas plus ?
-        ruby: Non sa devrais allez.
+        matheo: Ok, pas plus ?
+        ruby: Non sa devrais allez .
         ruby: (Je croie pas que le reste soit très calitatif...)
         ~ Brique = true
         { Bois == true && Brique == true && Paille == true:
@@ -2477,33 +2784,42 @@ pamela: Toi, tu sera toujours le bien venue...
         ruby: On à toute les ressources du livre,
         ruby: On paye et on se tire !
         }
+        ~ NBaction += 1
         -> GroinMerlin
 
     ** [Mathéo]
-        mathéo: Donc...
-        mathéo: Oui c'est ça...
-        mathéo: Surement...
-        mathéo: Ce truc dans le livre...
-        mathéo: j’en comprend queud !
-        mathéo: De la paille ?
-        mathéo: ...
-        mathéo: Bahh, des paille sa devrais le faire.
+        matheo: Donc...
+        matheo: Oui c'est ça...
+        matheo: Surement...
+        matheo: Ce truc dans le livre...
+        matheo: j’en comprend queud !
+        matheo: De la paille ?
+        matheo: ...
+        matheo: Bahh, sa devrais le faire.
         ~ Paille = true
         { Bois == true && Brique == true && Paille == true:
         ~ LivreComptes = false
-        mathéo: C'est bon, j'est le matos !
+        matheo: C'est bon, j'est le matos !
         pico: Perdon pas plus de temps !
         }
+        ~ NBaction += 1
         -> GroinMerlin
         
-    pico: Y a plus rien de la liste...
-    mathéo: Donc ?
-    pico: Ouep !
-    ruby: Alors on attend quoi ?
-    ruby: Le déluge !
-    -> GroinMerlin
-}
+    ++
+        pico: Y a plus rien de la liste...
+        matheo: Donc ?
+        pico: Ouep !
+        ruby: Alors on attend quoi ?
+        ruby: Le déluge !
+        ~ NBaction += 1
+        -> GroinMerlin
 
++ [Sortir du Le Groin Merlin]
+~ NBaction += 1
+-> ActionPrincipale
 
 === function ActivatePuzzle(active)
 EXTERNAL ActivatePuzzle(active)
+
+=== function ActivateTimer(active)
+EXTERNAL ActivateTimer(active)

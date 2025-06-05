@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tag: Ruby
   characterName: Ruby
-  characterColor: {r: 1, g: 0, b: 0.8208971, a: 1}
-  defaultExpression: base
-  expressions:
-  - expressionName: 
-    expressionSprite: {fileID: 0}
+  characterColor: {r: 0, g: 0, b: 0, a: 1}
+  defaultExpression: 
+  expressions: []
